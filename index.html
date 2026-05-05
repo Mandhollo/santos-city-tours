@@ -37,6 +37,27 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .badge-adventure{background:rgba(249,115,22,.15);color:#fb923c;border:1px solid rgba(249,115,22,.3)}
 .badge-football{background:rgba(96,165,250,.15);color:#60a5fa;border:1px solid rgba(96,165,250,.3)}
 .card-price-alt{font-size:11px;color:#666;font-weight:400;margin-left:4px}
+.reviews-section{padding:0 12px 12px;max-width:800px;margin:0 auto}
+.review-card{background:#161616;border-radius:14px;padding:14px 16px;border:1px solid #2a2a2a;margin-bottom:8px}
+.review-header{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.review-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#4ade80,#60a5fa);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#000}
+.review-name{font-size:14px;font-weight:600}
+.review-stars{color:#facc15;font-size:13px;letter-spacing:1px}
+.review-text{font-size:13px;color:#aaa;line-height:1.4}
+.review-origin{font-size:11px;color:#555;margin-top:4px}
+.timeline-section{padding:0 12px 12px;max-width:800px;margin:0 auto}
+.timeline-btns{display:flex;gap:8px;justify-content:center;margin-bottom:12px;flex-wrap:wrap}
+.timeline-btn{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);color:#4ade80;padding:8px 18px;border-radius:20px;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s}
+.timeline-btn.active,.timeline-btn:hover{background:rgba(74,222,128,.25);border-color:#4ade80}
+.timeline-route{background:#161616;border-radius:14px;padding:16px;border:1px solid #2a2a2a}
+.timeline-step{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
+.timeline-dot{width:12px;height:12px;border-radius:50%;background:#4ade80;margin-top:4px;flex-shrink:0}
+.timeline-step:last-child .timeline-dot{background:#60a5fa}
+.timeline-line{position:relative}
+.timeline-step:not(:last-child) .timeline-dot::after{content:'';position:absolute;left:5px;top:16px;width:2px;height:calc(100% + 6px);background:#2a2a2a}
+.timeline-step-info{flex:1}
+.timeline-step-name{font-size:14px;font-weight:600}
+.timeline-step-detail{font-size:12px;color:#888}
 .transport-section{padding:0 12px 12px;max-width:800px;margin:0 auto}
 .transport-card{background:#161616;border-radius:14px;padding:14px 16px;border:1px solid #2a2a2a;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
 .transport-name{font-size:14px;font-weight:600;flex:1;min-width:200px}
@@ -66,6 +87,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 <div class="section-title" id="spotsTitle"></div>
 <div class="cards" id="spots-cards"></div>
 
+<div class="section-title" id="reviewsTitle"></div>
+<div class="reviews-section" id="reviews-cards"></div>
+
+<div class="section-title" id="timelineTitle"></div>
+<div class="timeline-section" id="timeline-section">
+<div class="timeline-btns" id="timeline-btns"></div>
+<div class="timeline-route" id="timeline-route" style="display:none"></div>
+</div>
+
 <div class="section-title" id="transportTitle"></div>
 <div class="transport-section" id="transport-cards"></div>
 
@@ -78,9 +108,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
 <script>
 var T={
-pt:{sub:"Transporte Executivo \u2022 Santos-SP",spots:"\ud83d\udccd Pontos Tur\u00edsticos",transport:"\ud83d\ude97 Nossos Passeios & Transfers",note:"\u26a0\ufe0f Pre\u00e7os dos ingressos sujeitos a altera\u00e7\u00e3o.",foot:"Pagamento: Pix ou Dinheiro \ud83d\udc9a",free:"GR\u00c1TIS",dir:"\ud83d\udccd Como Chegar",wa:"Ol\u00e1! Vi o card\u00e1pio digital e gostaria de saber mais sobre os passeios em Santos.",bPop:"\u2b50 Popular",bFree:"\ud83e\uddf3 Gr\u00e1tis",bPhoto:"\ud83d\udcf8 Foto Top",bAdv:"\ud83e\udefa Aventura",bFoot:"\u26bd Futebol"},
-  en:{sub:"Executive Transportation \u2022 Santos-SP",spots:"\ud83d\udccd Tourist Attractions",transport:"\ud83d\ude97 Our Tours & Transfers",note:"\u26a0\ufe0f Ticket prices subject to change.",foot:"Payment: Pix or Cash \ud83d\udc9a",free:"FREE",dir:"\ud83d\udccd Get Directions",wa:"Hi! I saw your digital menu and I'd like to know more about tours in Santos.",bPop:"\u2b50 Popular",bFree:"\ud83e\uddf3 Free",bPhoto:"\ud83d\udcf8 Photo Spot",bAdv:"\ud83e\udefa Adventure",bFoot:"\u26bd Football"},
-  es:{sub:"Transporte Ejecutivo \u2022 Santos-SP",spots:"\ud83d\udccd Atracciones Tur\u00edsticas",transport:"\ud83d\ude97 Nuestros Tours y Transfers",note:"\u26a0\ufe0f Precios sujetos a cambios.",foot:"Pago: Pix o Efectivo \ud83d\udc9a",free:"GRATIS",dir:"\ud83d\udccd C\u00f3mo Llegar",wa:"\u00a1Hola! Vi el men\u00fa digital y me gustar\u00eda saber m\u00e1s sobre los paseos en Santos.",bPop:"\u2b50 Popular",bFree:"\ud83e\uddf3 Gratis",bPhoto:"\ud83d\udcf8 Foto Top",bAdv:"\ud83e\udefa Aventura",bFoot:"\u26bf F\u00fatbol"}
+pt:{sub:"Transporte Executivo \u2022 Santos-SP",spots:"\ud83d\udccd Pontos Tur\u00edsticos",transport:"\ud83d\ude97 Nossos Passeios & Transfers",note:"\u26a0\ufe0f Pre\u00e7os dos ingressos sujeitos a altera\u00e7\u00e3o.",foot:"Pagamento: Pix ou Dinheiro \ud83d\udc9a",free:"GR\u00c1TIS",dir:"\ud83d\udccd Como Chegar",wa:"Ol\u00e1! Vi o card\u00e1pio digital e gostaria de saber mais sobre os passeios em Santos.",bPop:"\u2b50 Popular",bFree:"\ud83e\uddf3 Gr\u00e1tis",bPhoto:"\ud83d\udcf8 Foto Top",bAdv:"\ud83e\udefa Aventura",bFoot:"\u26bd Futebol",revTitle:"\u2b50 Avalia\u00e7\u00f5es",tlTitle:"\ud83d\udd39 Monte seu Roteiro",tl1h:"1 hora",tl2h:"2 horas",tl3h:"3 horas"},
+  en:{sub:"Executive Transportation \u2022 Santos-SP",spots:"\ud83d\udccd Tourist Attractions",transport:"\ud83d\ude97 Our Tours & Transfers",note:"\u26a0\ufe0f Ticket prices subject to change.",foot:"Payment: Pix or Cash \ud83d\udc9a",free:"FREE",dir:"\ud83d\udccd Get Directions",wa:"Hi! I saw your digital menu and I'd like to know more about tours in Santos.",bPop:"\u2b50 Popular",bFree:"\ud83e\uddf3 Free",bPhoto:"\ud83d\udcf8 Photo Spot",bAdv:"\ud83e\udefa Adventure",bFoot:"\u26bd Football",revTitle:"\u2b50 Reviews",tlTitle:"\ud83d\udd39 Build Your Itinerary",tl1h:"1 hour",tl2h:"2 hours",tl3h:"3 hours"},
+  es:{sub:"Transporte Ejecutivo \u2022 Santos-SP",spots:"\ud83d\udccd Atracciones Tur\u00edsticas",transport:"\ud83d\ude97 Nuestros Tours y Transfers",note:"\u26a0\ufe0f Precios sujetos a cambios.",foot:"Pago: Pix o Efectivo \ud83d\udc9a",free:"GRATIS",dir:"\ud83d\udccd C\u00f3mo Llegar",wa:"\u00a1Hola! Vi el men\u00fa digital y me gustar\u00eda saber m\u00e1s sobre los paseos en Santos.",bPop:"\u2b50 Popular",bFree:"\ud83e\uddf3 Gratis",bPhoto:"\ud83d\udcf8 Foto Top",bAdv:"\ud83e\udefa Aventura",bFoot:"\u26bf F\u00fatbol",revTitle:"\u2b50 Opiniones",tlTitle:"\ud83d\udd39 Arma tu Itinerario",tl1h:"1 hora",tl2h:"2 horas",tl3h:"3 horas"}
 };
 
 var SPOTS=[
@@ -121,6 +151,8 @@ function setLang(l){
   for(var i=0;i<btns.length;i++) btns[i].classList.remove("active");
   document.querySelector('.lang-btn[onclick="setLang(\''+l+'\')"]').classList.add("active");
   render();
+  renderReviews();
+  renderTimeline();
 }
 
 function updateWA(){
@@ -172,7 +204,69 @@ function render(){
   document.getElementById("transport-cards").innerHTML=th;
 }
 
+var REVIEWS=[
+{pt:{name:"Carlos",text:"Excelente passeio! O motorista foi muito atencioso e conhecia toda a hist\u00f3ria da cidade.",from:"S\u00e3o Paulo, BR"},en:{name:"Carlos",text:"Excellent tour! The driver was very attentive and knew all the city's history.",from:"S\u00e3o Paulo, BR"},stars:5},
+{pt:{name:"Mar\u00eda",text:"La ciudad es hermosa y el tour fue incre\u00edble. Volver\u00e9 con mi familia.",from:"Buenos Aires, AR"},en:{name:"Mar\u00eda",text:"The city is beautiful and the tour was incredible. I'll come back with my family.",from:"Buenos Aires, AR"},stars:5},
+{pt:{name:"John",text:"Amazing experience! The cable car views were breathtaking. Highly recommend!",from:"New York, USA"},en:{name:"John",text:"Amazing experience! The cable car views were breathtaking. Highly recommend!",from:"New York, USA"},stars:5},
+{pt:{name:"Ana",text:"Fizemos o city tour completo e foi perfeito. O aqu\u00e1rio \u00e9 maravilhoso!",from:"Rio de Janeiro, BR"},en:{name:"Ana",text:"We did the full city tour and it was perfect. The aquarium is wonderful!",from:"Rio de Janeiro, BR"},stars:4},
+{pt:{name:"Mike",text:"Best shore excursion we ever had. Pel\u00e9 Museum was a highlight!",from:"London, UK"},en:{name:"Mike",text:"Best shore excursion we ever had. Pel\u00e9 Museum was a highlight!",from:"London, UK"},stars:5}
+];
+
+var ROUTES={
+"1h":[{id:"monte-serrat",dur:40},{id:"bondinho",dur:20}],
+"2h":[{id:"monte-serrat",dur:45},{id:"museu-do-pele",dur:25},{id:"aquario",dur:50}],
+"3h":[{id:"monte-serrat",dur:50},{id:"museu-do-pele",dur:25},{id:"bolsa-do-cafe",dur:35},{id:"aquario",dur:60},{id:"orla",dur:20}]
+};
+
+function renderReviews(){
+  var t=T[lang];
+  document.getElementById("reviewsTitle").textContent=t.revTitle;
+  var h="";
+  for(var i=0;i<REVIEWS.length;i++){
+    var r=REVIEWS[i], loc=r[lang]||r.en;
+    var stars="";
+    for(var s=0;s<5;s++) stars+=(s<r.stars)?"\u2605":"\u2606";
+    h+='<div class="review-card"><div class="review-header"><div class="review-avatar">'+loc.name[0]+'</div><div><div class="review-name">'+loc.name+'</div><div class="review-stars">'+stars+'</div></div></div><div class="review-text">'+loc.text+'</div><div class="review-origin">'+loc.from+'</div></div>';
+  }
+  document.getElementById("reviews-cards").innerHTML=h;
+}
+
+function renderTimeline(){
+  var t=T[lang];
+  document.getElementById("timelineTitle").textContent=t.tlTitle;
+  var btns='<button class="timeline-btn" onclick="showRoute(\'1h\')">'+t.tl1h+'</button>';
+  btns+='<button class="timeline-btn" onclick="showRoute(\'2h\')">'+t.tl2h+'</button>';
+  btns+='<button class="timeline-btn" onclick="showRoute(\'3h\')">'+t.tl3h+'</button>';
+  document.getElementById("timeline-btns").innerHTML=btns;
+}
+
+function showRoute(time){
+  var t=T[lang];
+  var route=ROUTES[time];
+  if(!route)return;
+  var btns=document.querySelectorAll(".timeline-btn");
+  for(var i=0;i<btns.length;i++) btns[i].classList.remove("active");
+  event.target.classList.add("active");
+  var totalMin=0;
+  var h="";
+  for(var i=0;i<route.length;i++){
+    var step=route[i];
+    var spot=null;
+    for(var j=0;j<SPOTS.length;j++){if(SPOTS[j].id===step.id){spot=SPOTS[j];break;}}
+    if(!spot)continue;
+    totalMin+=step.dur;
+    var loc=spot[lang];
+    h+='<div class="timeline-step"><div class="timeline-line"><div class="timeline-dot"></div></div><div class="timeline-step-info"><div class="timeline-step-name">'+loc.n+'</div><div class="timeline-step-detail">'+step.dur+' min</div></div></div>';
+  }
+  h+='<div style="text-align:center;margin-top:8px;font-size:13px;color:#888">\u23f1 '+t.tlTitle.split(" ").slice(-1)[0]+': '+totalMin+' min</div>';
+  var el=document.getElementById("timeline-route");
+  el.innerHTML=h;
+  el.style.display="block";
+}
+
 render();
+renderReviews();
+renderTimeline();
 </script>
 </body>
 </html>
