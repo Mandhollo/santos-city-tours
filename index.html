@@ -287,7 +287,7 @@ var quizStep=0,quizScore={};
 function renderQuiz(){
   var box=document.getElementById('quiz-cards');
   if(!box)return;
-  var lang=LANG||'pt';
+  /* lang detected */
   if(quizStep>=QUIZ_STEPS.length){
     // Calculate result
     var counts={},best='beach',max=0;
@@ -337,11 +337,11 @@ var VIDEOS=[
 function renderVideos(){
   var sec=document.getElementById('video-section');
   if(!sec)return;
-  var t=T[LANG]||T.pt;
+  var t=T[lang]||T.pt;
   var h='';
   for(var i=0;i<VIDEOS.length;i++){
     var v=VIDEOS[i];
-    var name=v.name[LANG]||v.name.pt;
+    var name=v.name[lang]||v.name.pt;
     h+='<div class="video-card">';
     h+='<div class="video-wrap"><iframe src="https://www.youtube.com/embed/'+v.yt+'?rel=0" allowfullscreen loading="lazy" title="'+name+'"></iframe></div>';
     h+='<div class="video-label">'+name+'</div></div>';
@@ -356,7 +356,7 @@ function initCounter(){
   var key='sct_visits';
   var count=parseInt(localStorage.getItem(key)||'0')+1;
   localStorage.setItem(key,String(count));
-  var t=T[LANG]||T.pt;
+  var t=T[lang]||T.pt;
   el.innerHTML=t.visitTxt+' <span>'+count+'</span> '+t.visitTimes;
 }
 
@@ -374,7 +374,7 @@ function render(){
   var t=T[lang];
   document.getElementById("subtitle").textContent=t.sub;
   document.getElementById("spotsTitle").textContent=t.spots;
-  document.getElementById("transportTitle").textContent=t.transport;
+  document.getElementById("transportTitle").textContent=t.transport;document.getElementById("quizTitle").textContent=t.quizTitle;document.getElementById("videoTitle").textContent=t.videoTitle;
   document.getElementById("pricesNote").textContent=t.note;
   document.getElementById("footerText").textContent=t.foot;
   updateWA();
