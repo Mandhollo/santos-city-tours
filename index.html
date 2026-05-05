@@ -279,10 +279,14 @@ function setLang(l){
   for(var i=0;i<btns.length;i++) btns[i].classList.remove("active");
   document.querySelector('.lang-btn[onclick="setLang(\''+l+'\')"]').classList.add("active");
   render();
-  renderCruises();renderReviews();renderQuiz();renderVideos();initCounter();renderDashboard();renderRating();
+  renderCruises();
+  renderReviews();
+  renderQuiz();
+  renderVideos();
+  initCounter();
   renderDashboard();
-renderRating();
-renderTimeline();
+  renderRating();
+  renderTimeline();
 }
 
 function updateWA(){
@@ -430,7 +434,7 @@ function render(){
   var t=T[lang];
   document.getElementById("subtitle").textContent=t.sub;
   document.getElementById("spotsTitle").textContent=t.spots;
-  document.getElementById("transportTitle").textContent=t.transport;document.getElementById("quizTitle").textContent=t.quizTitle;document.getElementById("videoTitle").textContent=t.videoTitle;document.getElementById("rateTitle").textContent=t.rateTitle;
+  document.getElementById("transportTitle").textContent=t.transport;document.getElementById("quizTitle").textContent=t.quizTitle;document.getElementById("videoTitle").textContent=t.videoTitle;document.getElementById("rateTitle").textContent=t.rateTitle;document.getElementById("cruiseTitle").textContent=t.cruiseTitle;document.getElementById("dashTitle").textContent=t.dashTitle;
   document.getElementById("pricesNote").textContent=t.note;
   document.getElementById("footerText").textContent=t.foot;
   updateWA();
@@ -723,7 +727,7 @@ function loadRatings(){
   el.innerHTML=h;
 }
 
-render();renderReviews();renderQuiz();renderVideos();initCounter();renderTimeline();
+render();renderCruises();renderReviews();renderQuiz();renderVideos();initCounter();renderDashboard();renderRating();renderTimeline();
 </script>
 </body>
 </html>
