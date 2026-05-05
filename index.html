@@ -309,7 +309,7 @@ function renderQuiz(){
   for(var i=0;i<step.opts.length;i++){
     var label=t[step.opts[i][0]];
     var tag=step.opts[i][1];
-    h+='<div class="quiz-opt" onclick="quizPick(this,''+tag+'')">'+label+'</div>';
+    h+='<div class="quiz-opt" data-tag="'+tag+'" onclick="quizPick(this,this.dataset.tag)">'+label+'</div>';
   }
   h+='</div><button class="quiz-next" id="quizBtn" disabled onclick="quizStep++;renderQuiz()">';
   h+=(quizStep<2)?t.quizNext:t.quizSee;
