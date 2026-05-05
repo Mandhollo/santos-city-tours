@@ -30,6 +30,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .card-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4);transition:all .2s}
 .card-dot.active{background:#fff;width:12px;border-radius:3px}
 body.light .card-nav{background:rgba(255,255,255,.7);color:#333}
+.quiz-box{background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;padding:24px;margin:16px 0;border:1px solid rgba(255,255,255,.1);max-width:420px;margin-left:auto;margin-right:auto}
+body.light .quiz-box{background:linear-gradient(135deg,#fff,#f0f4ff);border-color:#ddd}
+.quiz-title{font-size:20px;font-weight:700;margin-bottom:16px;text-align:center}
+.quiz-q{font-size:16px;margin-bottom:12px;font-weight:600}
+.quiz-opts{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.quiz-opt{padding:10px 14px;border:2px solid rgba(255,255,255,.15);border-radius:10px;cursor:pointer;transition:all .2s;font-size:14px;background:rgba(255,255,255,.05)}
+.quiz-opt:hover,.quiz-opt.sel{border-color:#00d4ff;background:rgba(0,212,255,.1)}
+body.light .quiz-opt{border-color:#ddd;background:#f8f9fa}
+body.light .quiz-opt:hover,body.light .quiz-opt.sel{border-color:#0077b6;background:#e8f4fd}
+.quiz-next{display:block;margin:0 auto;padding:10px 28px;border:none;border-radius:8px;background:#00d4ff;color:#000;font-weight:700;cursor:pointer;font-size:15px}
+.quiz-result{text-align:center;padding:16px}
+.quiz-result img{width:100%;height:160px;object-fit:cover;border-radius:12px;margin-bottom:12px}
+.quiz-result-name{font-size:22px;font-weight:700;color:#00d4ff;margin-bottom:8px}
+.quiz-result-desc{font-size:14px;opacity:.85;margin-bottom:16px}
+.quiz-restart{padding:8px 20px;border:2px solid #00d4ff;background:transparent;color:#00d4ff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600}
 .card-body{padding:14px 16px 16px}
 .card-name{font-size:16px;font-weight:700;margin-bottom:4px}
 .card-desc{font-size:13px;color:#aaa;margin-bottom:10px;line-height:1.4}
@@ -142,7 +157,7 @@ body.light .timeline-step:not(:last-child) .timeline-dot::after{background:#ddd}
 
 <script>
 var T={
-pt:{sub:"Transporte Executivo \u2022 Santos-SP",spots:"\ud83d\udccd Pontos Tur\u00edsticos",transport:"\ud83d\ude97 Nossos Passeios & Transfers",note:"\u26a0\ufe0f Pre\u00e7os dos ingressos sujeitos a altera\u00e7\u00e3o.",foot:"Pagamento: Pix ou Dinheiro \ud83d\udc9a",free:"GR\u00c1TIS",dir:"\ud83d\udccd Como Chegar",wa:"Ol\u00e1! Vi o card\u00e1pio digital e gostaria de saber mais sobre os passeios em Santos.",bPop:"\u2b50 Popular",bFree:"\ud83e\uddf3 Gr\u00e1tis",bPhoto:"\ud83d\udcf8 Foto Top",bAdv:"\ud83e\udefa Aventura",bFoot:"\u26bd Futebol",revTitle:"\u2b50 Avalia\u00e7\u00f5es",tlTitle:"\ud83d\udd39 Monte seu Roteiro",tl1h:"1 hora",tl2h:"2 horas",tl3h:"3 horas",thLight:"Modo Claro",thDark:"Modo Escuro"},
+pt:{sub:"Transporte Executivo \u2022 Santos-SP",spots:"\ud83d\udccd Pontos Tur\u00edsticos",transport:"\ud83d\ude97 Nossos Passeios & Transfers",note:"\u26a0\ufe0f Pre\u00e7os dos ingressos sujeitos a altera\u00e7\u00e3o.",foot:"Pagamento: Pix ou Dinheiro \ud83d\udc9a",free:"GR\u00c1TIS",dir:"\ud83d\udccd Como Chegar","quizTitle": {"pt": "\ud83c\udfaf Qual ponto combina com voc\u00ea?", "en": "\ud83c\udfaf Which spot suits you?", "es": "\ud83c\udfaf \u00bfQu\u00e9 lugar te combina?"}, "quizRestart": {"pt": "\ud83d\udd04 Refazer quiz", "en": "\ud83d\udd04 Retake quiz", "es": "\ud83d\udd04 Rehacer quiz"}, "quizNext": {"pt": "Pr\u00f3ximo \u27a1\ufe0f", "en": "Next \u27a1\ufe0f", "es": "Siguiente \u27a1\ufe0f"}, "quizSee": {"pt": "Ver resultado \ud83c\udf1f", "en": "See result \ud83c\udf1f", "es": "Ver resultado \ud83c\udf1f"}, "quizQ1": {"pt": "O que voc\u00ea prefere?", "en": "What do you prefer?", "es": "\u00bfQu\u00e9 prefieres?"}, "quizQ1a": {"pt": "\ud83c\udf0a Praia e natureza", "en": "\ud83c\udf0a Beach & nature", "es": "\ud83c\udf0a Playa y naturaleza"}, "quizQ1b": {"pt": "\u26bd Esporte e paix\u00e3o", "en": "\u26bd Sport & passion", "es": "\u26bd Deporte y pasi\u00f3n"}, "quizQ1c": {"pt": "\ud83c\udfdb\ufe0f Cultura e hist\u00f3ria", "en": "\ud83c\udfdb\ufe0f Culture & history", "es": "\ud83c\udfdb\ufe0f Cultura e historia"}, "quizQ1d": {"pt": "\ud83d\udcb0 Economia e gra\u00e7a", "en": "\ud83d\udcb0 Budget-friendly", "es": "\ud83d\udcb0 Econ\u00f3mico"}, "quizQ2": {"pt": "Qual o seu clima?", "en": "Whats your vibe?", "es": "Cu\u00e1l es tu vibra?"}, "quizQ2a": {"pt": "\ud83d\udc0d Aventura radical", "en": "\ud83d\udc0d Radical adventure", "es": "\ud83d\udc0d Aventura radical"}, "quizQ2b": {"pt": "\ud83d\udcf8 Foto perfeita", "en": "\ud83d\udcf8 Perfect photo", "es": "\ud83d\udcf8 Foto perfecta"}, "quizQ2c": {"pt": "\ud83e\uddd8 Relaxar e curtir", "en": "\ud83e\uddd8 Relax & enjoy", "es": "\ud83e\uddd8 Relajar y disfrutar"}, "quizQ2d": {"pt": "\ud83d\udcda Aprender algo novo", "en": "\ud83d\udcda Learn something new", "es": "\ud83d\udcda Aprender algo nuevo"}, "quizQ3": {"pt": "Viajando com quem?", "en": "Traveling with?", "es": "Con qui\u00e9n viajas?"}, "quizQ3a": {"pt": "\ud83d\udc6a Fam\u00edlia", "en": "\ud83d\udc6a Family", "es": "\ud83d\udc6a Familia"}, "quizQ3b": {"pt": "\ud83d\udc91 Casal", "en": "\ud83d\udc91 Couple", "es": "\ud83d\udc91 Pareja"}, "quizQ3c": {"pt": "\ud83e\udd1d Amigos", "en": "\ud83e\udd1d Friends", "es": "\ud83e\udd1d Amigos"}, "quizQ3d": {"pt": "\ud83e\uddd1 Solo", "en": "\ud83e\uddd1 Solo", "es": "\ud83e\uddd1 Solo"},wa:"Ol\u00e1! Vi o card\u00e1pio digital e gostaria de saber mais sobre os passeios em Santos.",bPop:"\u2b50 Popular",bFree:"\ud83e\uddf3 Gr\u00e1tis",bPhoto:"\ud83d\udcf8 Foto Top",bAdv:"\ud83e\udefa Aventura",bFoot:"\u26bd Futebol",revTitle:"\u2b50 Avalia\u00e7\u00f5es",tlTitle:"\ud83d\udd39 Monte seu Roteiro",tl1h:"1 hora",tl2h:"2 horas",tl3h:"3 horas",thLight:"Modo Claro",thDark:"Modo Escuro"},
   en:{sub:"Executive Transportation \u2022 Santos-SP",spots:"\ud83d\udccd Tourist Attractions",transport:"\ud83d\ude97 Our Tours & Transfers",note:"\u26a0\ufe0f Ticket prices subject to change.",foot:"Payment: Pix or Cash \ud83d\udc9a",free:"FREE",dir:"\ud83d\udccd Get Directions",wa:"Hi! I saw your digital menu and I'd like to know more about tours in Santos.",bPop:"\u2b50 Popular",bFree:"\ud83e\uddf3 Free",bPhoto:"\ud83d\udcf8 Photo Spot",bAdv:"\ud83e\udefa Adventure",bFoot:"\u26bd Football",revTitle:"\u2b50 Reviews",tlTitle:"\ud83d\udd39 Build Your Itinerary",tl1h:"1 hour",tl2h:"2 hours",tl3h:"3 hours",thLight:"Light Mode",thDark:"Dark Mode"},
   es:{sub:"Transporte Ejecutivo \u2022 Santos-SP",spots:"\ud83d\udccd Atracciones Tur\u00edsticas",transport:"\ud83d\ude97 Nuestros Tours y Transfers",note:"\u26a0\ufe0f Precios sujetos a cambios.",foot:"Pago: Pix o Efectivo \ud83d\udc9a",free:"GRATIS",dir:"\ud83d\udccd C\u00f3mo Llegar",wa:"\u00a1Hola! Vi el men\u00fa digital y me gustar\u00eda saber m\u00e1s sobre los paseos en Santos.",bPop:"\u2b50 Popular",bFree:"\ud83e\uddf3 Gratis",bPhoto:"\ud83d\udcf8 Foto Top",bAdv:"\ud83e\udefa Aventura",bFoot:"\u26bf F\u00fatbol",revTitle:"\u2b50 Opiniones",tlTitle:"\ud83d\udd39 Arma tu Itinerario",tl1h:"1 hora",tl2h:"2 horas",tl3h:"3 horas",thLight:"Modo Claro",thDark:"Modo Oscuro"}
 };
@@ -200,7 +215,7 @@ function setLang(l){
   for(var i=0;i<btns.length;i++) btns[i].classList.remove("active");
   document.querySelector('.lang-btn[onclick="setLang(\''+l+'\')"]').classList.add("active");
   render();
-  renderReviews();
+  renderReviews();renderQuiz();
   renderTimeline();
 }
 
@@ -245,6 +260,60 @@ document.addEventListener('touchend',function(e){
   }
   carousel._tx=null;
 },{passive:true});
+
+// ===== QUIZ =====
+var QUIZ_STEPS=[
+  {q:'quizQ1',opts:[['quizQ1a','beach'],['quizQ1b','sport'],['quizQ1c','culture'],['quizQ1d','budget']]},
+  {q:'quizQ2',opts:[['quizQ2a','adventure'],['quizQ2b','photo'],['quizQ2c','relax'],['quizQ2d','culture']]},
+  {q:'quizQ3',opts:[['quizQ3a','family'],['quizQ3b','couple'],['quizQ3c','friends'],['quizQ3d','solo']]}
+];
+var QUIZ_RESULT={
+  beach:'pitangueiras',sport:'vila-belmiro',culture:'bolsa-do-cafe',
+  budget:'emissario',adventure:'teleferico',photo:'monte-serrat',
+  relax:'orla',family:'aquario',couple:'bondinho',friends:'porchat',solo:'museu-do-pele'
+};
+var quizStep=0,quizScore={};
+
+function renderQuiz(){
+  var box=document.getElementById('quiz-cards');
+  if(!box)return;
+  var lang=LANG||'pt';
+  if(quizStep>=QUIZ_STEPS.length){
+    // Calculate result
+    var counts={},best='beach',max=0;
+    for(var k in quizScore){var v=quizScore[k];counts[v]=(counts[v]||0)+1;if(counts[v]>max){max=counts[v];best=v;}}
+    var spotId=QUIZ_RESULT[best]||'monte-serrat';
+    var spot=SPOTS.find(function(s){return s.id===spotId;})||SPOTS[0];
+    var loc=spot[lang]||spot.pt;
+    var t=T[lang]||T.pt;
+    box.innerHTML='<div class="quiz-box quiz-result"><img src="'+spot.img+'" alt="'+loc.n+'" loading="lazy">' +
+      '<div class="quiz-result-name">'+loc.n+'</div>' +
+      '<div class="quiz-result-desc">'+loc.d+'</div>' +
+      '<button class="quiz-restart" onclick="quizStep=0;quizScore={};renderQuiz()">'+t.quizRestart+'</button></div>';
+    return;
+  }
+  var step=QUIZ_STEPS[quizStep];
+  var t=T[lang]||T.pt;
+  var h='<div class="quiz-box"><div class="quiz-title">'+t.quizTitle+'</div>';
+  h+='<div class="quiz-q">'+(quizStep+1)+'/3 — '+t[step.q]+'</div><div class="quiz-opts">';
+  for(var i=0;i<step.opts.length;i++){
+    var label=t[step.opts[i][0]];
+    var tag=step.opts[i][1];
+    h+='<div class="quiz-opt" onclick="quizPick(this,''+tag+'')">'+label+'</div>';
+  }
+  h+='</div><button class="quiz-next" id="quizBtn" disabled onclick="quizStep++;renderQuiz()">';
+  h+=(quizStep<2)?t.quizNext:t.quizSee;
+  h+='</button></div>';
+  box.innerHTML=h;
+}
+
+function quizPick(el,tag){
+  var opts=el.parentElement.querySelectorAll('.quiz-opt');
+  for(var i=0;i<opts.length;i++)opts[i].classList.remove('sel');
+  el.classList.add('sel');
+  quizScore[quizStep]=tag;
+  document.getElementById('quizBtn').disabled=false;
+}
 
 function toggleTheme(){
   theme=(theme==='dark')?'light':'dark';
