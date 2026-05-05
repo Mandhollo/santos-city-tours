@@ -153,7 +153,7 @@ function render(){
     var altPrice="";
     if(!s.free&&s.brl){
       var usd=Math.round(s.brl/RATE);
-      altPrice=(lang==="pt")?'<span class="card-price-alt">(~$'+usd+' USD)</span>':'<span class="card-price-alt">(~R$ '+s.brl+')</span>';
+      altPrice='<span class="card-price-alt">(~$'+usd+' USD)</span>';
     }
     sh+='<div class="card"><img class="card-img" src="'+s.img+'" alt="'+loc.n+'" loading="lazy"><div class="card-body">';
     sh+='<div class="card-name">'+loc.n+'</div>'+badgesHtml+'<div class="card-desc">'+loc.d+'</div>';
