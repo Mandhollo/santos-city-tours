@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#0a0a0a" id="themeColor">
 <title>Santos City Tours</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -70,6 +71,27 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .whatsapp-float:hover{transform:scale(1.1)}
 .footer{text-align:center;padding:24px 16px 40px;font-size:11px;color:#555;max-width:600px;margin:0 auto}
 .footer .prices-note{background:#1a1a1a;border-radius:8px;padding:10px 14px;margin-bottom:12px;color:#888;font-size:11px}
+.theme-toggle{position:fixed;top:16px;right:16px;z-index:150;width:44px;height:44px;border-radius:50%;border:1px solid #333;background:#1a1a1a;color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+.theme-toggle:hover{transform:scale(1.1)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.card,.transport-card,.review-card,.timeline-route{animation:fadeUp .4s ease-out both}
+.card:nth-child(2){animation-delay:.05s}.card:nth-child(3){animation-delay:.1s}.card:nth-child(4){animation-delay:.15s}
+.card:nth-child(5){animation-delay:.2s}.card:nth-child(6){animation-delay:.25s}.card:nth-child(7){animation-delay:.3s}
+.card:nth-child(8){animation-delay:.35s}.card:nth-child(9){animation-delay:.4s}.card:nth-child(10){animation-delay:.45s}
+.card:nth-child(11){animation-delay:.5s}.card:nth-child(12){animation-delay:.55s}
+body.light{background:#f5f5f5;color:#1a1a1a}
+body.light .header{background:linear-gradient(135deg,#0d4f3c,#1a7a5a,#0d4f3c)}
+body.light .card,body.light .transport-card,body.light .review-card,body.light .timeline-route{background:#fff;border-color:#e0e0e0}
+body.light .card-name,body.light .transport-name,body.light .review-name,body.light .timeline-step-name{color:#1a1a1a}
+body.light .card-desc,body.light .transport-desc,body.light .review-text{color:#666}
+body.light .card-time,body.light .transport-capacity,body.light .review-origin,body.light .timeline-step-detail{color:#999}
+body.light .section-title{color:#0d4f3c}
+body.light .footer{color:#999}
+body.light .footer .prices-note{background:#eee;color:#666}
+body.light .theme-toggle{background:#fff;color:#1a1a1a;border-color:#ddd}
+body.light .card-price-alt{color:#999}
+body.light .timeline-dot{background:#0d4f3c}
+body.light .timeline-step:not(:last-child) .timeline-dot::after{background:#ddd}
 </style>
 </head>
 <body>
@@ -104,13 +126,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   <div id="footerText"></div>
 </div>
 
+<button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Light/Dark">&#9790;</button>
+
 <a href="https://wa.me/5513997042065" target="_blank" class="whatsapp-float" id="waBtn">&#128172;</a>
 
 <script>
 var T={
-pt:{sub:"Transporte Executivo \u2022 Santos-SP",spots:"\ud83d\udccd Pontos Tur\u00edsticos",transport:"\ud83d\ude97 Nossos Passeios & Transfers",note:"\u26a0\ufe0f Pre\u00e7os dos ingressos sujeitos a altera\u00e7\u00e3o.",foot:"Pagamento: Pix ou Dinheiro \ud83d\udc9a",free:"GR\u00c1TIS",dir:"\ud83d\udccd Como Chegar",wa:"Ol\u00e1! Vi o card\u00e1pio digital e gostaria de saber mais sobre os passeios em Santos.",bPop:"\u2b50 Popular",bFree:"\ud83e\uddf3 Gr\u00e1tis",bPhoto:"\ud83d\udcf8 Foto Top",bAdv:"\ud83e\udefa Aventura",bFoot:"\u26bd Futebol",revTitle:"\u2b50 Avalia\u00e7\u00f5es",tlTitle:"\ud83d\udd39 Monte seu Roteiro",tl1h:"1 hora",tl2h:"2 horas",tl3h:"3 horas"},
-  en:{sub:"Executive Transportation \u2022 Santos-SP",spots:"\ud83d\udccd Tourist Attractions",transport:"\ud83d\ude97 Our Tours & Transfers",note:"\u26a0\ufe0f Ticket prices subject to change.",foot:"Payment: Pix or Cash \ud83d\udc9a",free:"FREE",dir:"\ud83d\udccd Get Directions",wa:"Hi! I saw your digital menu and I'd like to know more about tours in Santos.",bPop:"\u2b50 Popular",bFree:"\ud83e\uddf3 Free",bPhoto:"\ud83d\udcf8 Photo Spot",bAdv:"\ud83e\udefa Adventure",bFoot:"\u26bd Football",revTitle:"\u2b50 Reviews",tlTitle:"\ud83d\udd39 Build Your Itinerary",tl1h:"1 hour",tl2h:"2 hours",tl3h:"3 hours"},
-  es:{sub:"Transporte Ejecutivo \u2022 Santos-SP",spots:"\ud83d\udccd Atracciones Tur\u00edsticas",transport:"\ud83d\ude97 Nuestros Tours y Transfers",note:"\u26a0\ufe0f Precios sujetos a cambios.",foot:"Pago: Pix o Efectivo \ud83d\udc9a",free:"GRATIS",dir:"\ud83d\udccd C\u00f3mo Llegar",wa:"\u00a1Hola! Vi el men\u00fa digital y me gustar\u00eda saber m\u00e1s sobre los paseos en Santos.",bPop:"\u2b50 Popular",bFree:"\ud83e\uddf3 Gratis",bPhoto:"\ud83d\udcf8 Foto Top",bAdv:"\ud83e\udefa Aventura",bFoot:"\u26bf F\u00fatbol",revTitle:"\u2b50 Opiniones",tlTitle:"\ud83d\udd39 Arma tu Itinerario",tl1h:"1 hora",tl2h:"2 horas",tl3h:"3 horas"}
+pt:{sub:"Transporte Executivo \u2022 Santos-SP",spots:"\ud83d\udccd Pontos Tur\u00edsticos",transport:"\ud83d\ude97 Nossos Passeios & Transfers",note:"\u26a0\ufe0f Pre\u00e7os dos ingressos sujeitos a altera\u00e7\u00e3o.",foot:"Pagamento: Pix ou Dinheiro \ud83d\udc9a",free:"GR\u00c1TIS",dir:"\ud83d\udccd Como Chegar",wa:"Ol\u00e1! Vi o card\u00e1pio digital e gostaria de saber mais sobre os passeios em Santos.",bPop:"\u2b50 Popular",bFree:"\ud83e\uddf3 Gr\u00e1tis",bPhoto:"\ud83d\udcf8 Foto Top",bAdv:"\ud83e\udefa Aventura",bFoot:"\u26bd Futebol",revTitle:"\u2b50 Avalia\u00e7\u00f5es",tlTitle:"\ud83d\udd39 Monte seu Roteiro",tl1h:"1 hora",tl2h:"2 horas",tl3h:"3 horas",thLight:"Modo Claro",thDark:"Modo Escuro"},
+  en:{sub:"Executive Transportation \u2022 Santos-SP",spots:"\ud83d\udccd Tourist Attractions",transport:"\ud83d\ude97 Our Tours & Transfers",note:"\u26a0\ufe0f Ticket prices subject to change.",foot:"Payment: Pix or Cash \ud83d\udc9a",free:"FREE",dir:"\ud83d\udccd Get Directions",wa:"Hi! I saw your digital menu and I'd like to know more about tours in Santos.",bPop:"\u2b50 Popular",bFree:"\ud83e\uddf3 Free",bPhoto:"\ud83d\udcf8 Photo Spot",bAdv:"\ud83e\udefa Adventure",bFoot:"\u26bd Football",revTitle:"\u2b50 Reviews",tlTitle:"\ud83d\udd39 Build Your Itinerary",tl1h:"1 hour",tl2h:"2 hours",tl3h:"3 hours",thLight:"Light Mode",thDark:"Dark Mode"},
+  es:{sub:"Transporte Ejecutivo \u2022 Santos-SP",spots:"\ud83d\udccd Atracciones Tur\u00edsticas",transport:"\ud83d\ude97 Nuestros Tours y Transfers",note:"\u26a0\ufe0f Precios sujetos a cambios.",foot:"Pago: Pix o Efectivo \ud83d\udc9a",free:"GRATIS",dir:"\ud83d\udccd C\u00f3mo Llegar",wa:"\u00a1Hola! Vi el men\u00fa digital y me gustar\u00eda saber m\u00e1s sobre los paseos en Santos.",bPop:"\u2b50 Popular",bFree:"\ud83e\uddf3 Gratis",bPhoto:"\ud83d\udcf8 Foto Top",bAdv:"\ud83e\udefa Aventura",bFoot:"\u26bf F\u00fatbol",revTitle:"\u2b50 Opiniones",tlTitle:"\ud83d\udd39 Arma tu Itinerario",tl1h:"1 hora",tl2h:"2 horas",tl3h:"3 horas",thLight:"Modo Claro",thDark:"Modo Oscuro"}
 };
 
 var SPOTS=[
@@ -159,6 +183,20 @@ function updateWA(){
   var t=T[lang];
   var msg=encodeURIComponent(t.wa);
   document.getElementById("waBtn").href="https://wa.me/5513997042065?text="+msg;
+}
+
+var theme='dark';
+(function(){var s=localStorage.getItem('santos-theme');if(s)theme=s;})();
+if(theme==='light'){document.body.classList.add('light');document.getElementById('themeBtn').innerHTML='\u2600';document.getElementById('themeColor').content='#f5f5f5';}
+
+function toggleTheme(){
+  theme=(theme==='dark')?'light':'dark';
+  document.body.classList.toggle('light');
+  var btn=document.getElementById('themeBtn');
+  var meta=document.getElementById('themeColor');
+  if(theme==='light'){btn.innerHTML='\u2600';meta.content='#f5f5f5';}
+  else{btn.innerHTML='\u9790';meta.content='#0a0a0a';}
+  localStorage.setItem('santos-theme',theme);
 }
 
 function render(){
