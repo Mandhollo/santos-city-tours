@@ -3,227 +3,428 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#0a0a0a" id="themeColor">
+<meta name="theme-color" content="#0a0f1a" id="themeColor">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Santos Tours">
 <link rel="apple-touch-icon" href="icon-192.png">
+<link rel="manifest" href="manifest.json">
 <title>Santos City Tours</title>
 <style>
+/* ===== RESET & BASE ===== */
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0a0a;color:#fff;line-height:1.5;-webkit-font-smoothing:antialiased}
-.header{background:linear-gradient(135deg,#0d4f3c,#1a7a5a,#0d4f3c);padding:20px 16px 24px;text-align:center;position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,.5)}
-.header h1{font-size:22px;font-weight:700;letter-spacing:1px;margin-bottom:2px}
-.header .sub{font-size:12px;opacity:.85;margin-bottom:12px}
-.lang-btns{display:flex;gap:8px;justify-content:center}
-.lang-btn{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);color:#fff;padding:6px 16px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s}
-.lang-btn.active,.lang-btn:hover{background:rgba(255,255,255,.3);border-color:#fff}
-.section-title{text-align:center;padding:24px 16px 12px;font-size:18px;font-weight:700;color:#4ade80;letter-spacing:.5px}
-.cards{display:grid;grid-template-columns:1fr;gap:12px;padding:0 12px 12px}
-@media(min-width:600px){.cards{grid-template-columns:1fr 1fr;max-width:800px;margin:0 auto}}
-.card{background:#161616;border-radius:14px;overflow:hidden;border:1px solid #2a2a2a}
-.card-carousel{position:relative;width:100%;height:180px;overflow:hidden;background:#222}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0f1a;color:#e2e8f0;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* ===== SIDEBAR OVERLAY ===== */
+.sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:998;opacity:0;visibility:hidden;transition:all .3s ease;backdrop-filter:blur(4px)}
+.sidebar-overlay.open{opacity:1;visibility:visible}
+
+/* ===== SIDEBAR ===== */
+.sidebar{position:fixed;top:0;left:-300px;width:280px;height:100vh;background:#0f1628;z-index:999;transition:left .35s cubic-bezier(.4,0,.2,1);overflow-y:auto;border-right:1px solid rgba(255,255,255,.06);padding-bottom:80px}
+.sidebar.open{left:0}
+.sidebar-header{padding:28px 20px 20px;background:linear-gradient(135deg,#0d4f3c,#1a7a5a);text-align:center}
+.sidebar-header h2{font-size:18px;font-weight:700;color:#fff;letter-spacing:.5px}
+.sidebar-header .side-sub{font-size:11px;color:rgba(255,255,255,.7);margin-top:4px}
+.sidebar-close{position:absolute;top:16px;right:16px;background:rgba(255,255,255,.15);border:none;color:#fff;width:32px;height:32px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.sidebar-close:hover{background:rgba(255,255,255,.3)}
+
+/* Sidebar language switcher */
+.sidebar-lang{display:flex;gap:6px;padding:14px 20px;justify-content:center;border-bottom:1px solid rgba(255,255,255,.06)}
+.sidebar-lang .lang-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:#94a3b8;padding:6px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s}
+.sidebar-lang .lang-btn.active,.sidebar-lang .lang-btn:hover{background:rgba(74,222,128,.15);border-color:#4ade80;color:#4ade80}
+
+/* Sidebar nav items */
+.sidebar-nav{padding:12px 0}
+.sidebar-item{display:flex;align-items:center;gap:12px;padding:13px 20px;color:#94a3b8;text-decoration:none;font-size:14px;font-weight:500;transition:all .2s;cursor:pointer;border:none;background:none;width:100%;text-align:left}
+.sidebar-item:hover{background:rgba(255,255,255,.04);color:#e2e8f0}
+.sidebar-item.active{color:#4ade80;background:rgba(74,222,128,.08)}
+.sidebar-item .nav-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;background:rgba(255,255,255,.05);flex-shrink:0}
+.sidebar-item.active .nav-icon{background:rgba(74,222,128,.15)}
+.sidebar-divider{height:1px;background:rgba(255,255,255,.06);margin:8px 20px}
+
+/* Sidebar theme toggle */
+.sidebar-theme{padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid rgba(255,255,255,.06)}
+.sidebar-theme span{font-size:13px;color:#94a3b8}
+.theme-switch{position:relative;width:48px;height:26px;background:#1e293b;border-radius:13px;cursor:pointer;transition:background .3s;border:none}
+.theme-switch.light{background:#4ade80}
+.theme-switch::after{content:'';position:absolute;top:3px;left:3px;width:20px;height:20px;background:#fff;border-radius:50%;transition:transform .3s}
+.theme-switch.light::after{transform:translateX(22px)}
+
+/* ===== TOP BAR ===== */
+.topbar{position:sticky;top:0;z-index:100;background:rgba(10,15,26,.85);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.06);padding:14px 16px;display:flex;align-items:center;gap:12px}
+.topbar-hamburger{background:none;border:none;color:#e2e8f0;font-size:22px;cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;transition:background .2s}
+.topbar-hamburger:hover{background:rgba(255,255,255,.08)}
+.topbar-title{flex:1;font-size:17px;font-weight:700;letter-spacing:.3px}
+.topbar-title .logo-icon{color:#4ade80}
+.topbar-wa{background:none;border:none;color:#25d366;font-size:22px;cursor:pointer;padding:4px;width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:background .2s;text-decoration:none}
+.topbar-wa:hover{background:rgba(37,211,102,.1)}
+
+/* ===== MAIN CONTENT ===== */
+.main{max-width:600px;margin:0 auto;padding:0 0 100px}
+
+/* Section wrapper with anchor */
+.page-section{padding:0;display:none}
+.page-section.active{display:block;animation:fadeIn .3s ease}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* Section headers */
+.sec-header{padding:20px 16px 12px}
+.sec-header h2{font-size:20px;font-weight:700;color:#e2e8f0;letter-spacing:.3px}
+.sec-header h2 .sec-icon{margin-right:6px}
+.sec-header p{font-size:13px;color:#64748b;margin-top:4px}
+
+/* ===== CARDS (Pontos Turísticos) ===== */
+.cards{display:grid;grid-template-columns:1fr;gap:12px;padding:0 12px 16px}
+@media(min-width:600px){.cards{grid-template-columns:1fr 1fr}}
+.card{background:#131b2e;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.06);transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.3)}
+.card-carousel{position:relative;width:100%;height:180px;overflow:hidden;background:#1a2332}
 .card-carousel-track{display:flex;height:100%;transition:transform .3s ease}
 .card-carousel-track img{min-width:100%;height:100%;object-fit:cover}
-.card-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.5);color:#fff;border:none;width:32px;height:32px;border-radius:50%;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:5;opacity:0;transition:opacity .2s}
+.card-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,.6);color:#fff;border:none;width:30px;height:30px;border-radius:50%;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:5;opacity:0;transition:opacity .2s;backdrop-filter:blur(4px)}
 .card-carousel:hover .card-nav{opacity:1}
 .card-nav.prev{left:6px}
 .card-nav.next{right:6px}
 .card-dots{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);display:flex;gap:4px}
-.card-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4);transition:all .2s}
-.card-dot.active{background:#fff;width:12px;border-radius:3px}
-body.light .card-nav{background:rgba(255,255,255,.7);color:#333}
-.quiz-section{padding:0 12px 12px;max-width:420px;margin:0 auto}
-.quiz-box{background:linear-gradient(135deg,#1a1a2e,#16213e);border-radius:16px;padding:24px;margin:16px 0;border:1px solid rgba(255,255,255,.1);max-width:420px;margin-left:auto;margin-right:auto}
-body.light .quiz-box{background:linear-gradient(135deg,#fff,#f0f4ff);border-color:#ddd}
-.quiz-title{font-size:20px;font-weight:700;margin-bottom:16px;text-align:center}
-.quiz-q{font-size:16px;margin-bottom:12px;font-weight:600}
-.quiz-opts{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
-.quiz-opt{padding:10px 14px;border:2px solid rgba(255,255,255,.15);border-radius:10px;cursor:pointer;transition:all .2s;font-size:14px;background:rgba(255,255,255,.05)}
-.quiz-opt:hover,.quiz-opt.sel{border-color:#00d4ff;background:rgba(0,212,255,.1)}
-body.light .quiz-opt{border-color:#ddd;background:#f8f9fa}
-body.light .quiz-opt:hover,body.light .quiz-opt.sel{border-color:#0077b6;background:#e8f4fd}
-.quiz-next{display:block;margin:0 auto;padding:10px 28px;border:none;border-radius:8px;background:#00d4ff;color:#000;font-weight:700;cursor:pointer;font-size:15px}
-.quiz-result{text-align:center;padding:16px}
-.quiz-result img{width:100%;height:160px;object-fit:cover;border-radius:12px;margin-bottom:12px}
-.quiz-result-name{font-size:22px;font-weight:700;color:#00d4ff;margin-bottom:8px}
-.quiz-result-desc{font-size:14px;opacity:.85;margin-bottom:16px}
-.quiz-restart{padding:8px 20px;border:2px solid #00d4ff;background:transparent;color:#00d4ff;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600}
-.video-card{background:#111;border-radius:12px;overflow:hidden;margin-bottom:12px;max-width:420px;margin-left:auto;margin-right:auto}
-body.light .video-card{background:#fff;border:1px solid #e0e0e0}
-.video-wrap{position:relative;width:100%;padding-bottom:56.25%;background:#000}
-.video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
-.video-label{padding:10px 14px;font-size:13px;font-weight:600}
-.rate-section{max-width:420px;margin:16px auto;padding:20px;background:#111;border-radius:14px;border:1px solid #2a2a2a;text-align:center}
-body.light .rate-section{background:#fff;border-color:#e0e0e0}
-.rate-title{font-size:16px;font-weight:700;margin-bottom:12px}
-.rate-stars{display:flex;justify-content:center;gap:8px;margin-bottom:12px}
-.rate-star{font-size:32px;cursor:pointer;transition:transform .15s;opacity:.3}
-.rate-star:hover,.rate-star.active{opacity:1;transform:scale(1.2)}
-.rate-msg{font-size:13px;min-height:20px;color:#4ade80}
-.rate-input{width:80%;padding:8px 12px;border-radius:8px;border:1px solid #333;background:#1a1a1a;color:#fff;font-size:13px;margin:8px 0;resize:none}
-body.light .rate-input{border-color:#ddd;background:#f8f9fa;color:#333}
-.rate-send{padding:8px 20px;border:none;border-radius:8px;background:#4ade80;color:#000;font-weight:700;cursor:pointer;font-size:13px}
-.rate-send:disabled{opacity:.4;cursor:default}
-.rate-list{max-width:420px;margin:0 auto 16px;text-align:left}
-.rate-item{background:#161616;border-radius:10px;padding:10px 14px;margin-bottom:8px;border:1px solid #222}
-body.light .rate-item{background:#f8f9fa;border-color:#e0e0e0}
-.rate-item-stars{color:#fbbf24;font-size:14px;margin-bottom:4px}
-.rate-item-text{font-size:13px;opacity:.85}
-.rate-item-date{font-size:11px;color:#666;margin-top:4px}
-.cruise-section{max-width:420px;margin:0 auto 16px;padding:0 12px}
-.cruise-card{background:#161616;border-radius:12px;padding:14px 16px;margin-bottom:8px;border:1px solid #2a2a2a;display:flex;align-items:center;gap:12px}
-body.light .cruise-card{background:#f8f9fa;border-color:#e0e0e0}
-.cruise-date{background:linear-gradient(135deg,#4ade80,#22c55e);color:#000;border-radius:10px;padding:8px 10px;text-align:center;min-width:52px;flex-shrink:0}
-.cruise-date-day{font-size:20px;font-weight:800;line-height:1}
-.cruise-date-month{font-size:10px;font-weight:700;text-transform:uppercase}
-.cruise-info{flex:1}
-.cruise-ship{font-size:14px;font-weight:600}
-.cruise-line{font-size:11px;color:#888;margin-top:2px}
-.cruise-status{font-size:10px;padding:3px 8px;border-radius:6px;font-weight:600}
-.cruise-status.in{background:rgba(74,222,128,.15);color:#4ade80}
-.cruise-status.out{background:rgba(96,165,250,.15);color:#60a5fa}
-.cruise-empty{text-align:center;padding:20px;font-size:13px;opacity:.6}
-.push-btn{display:block;margin:12px auto;padding:10px 24px;border:none;border-radius:8px;background:#4ade80;color:#000;font-weight:700;cursor:pointer;font-size:13px}
-.push-btn:disabled{opacity:.4;cursor:default}
-.dash-section{max-width:420px;margin:16px auto;padding:20px;background:#111;border-radius:14px;border:1px solid #2a2a2a;text-align:center}
-body.light .dash-section{background:#fff;border-color:#e0e0e0}
-.dash-title{font-size:16px;font-weight:700;margin-bottom:16px}
-.dash-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-.dash-card{background:#1a1a1a;border-radius:10px;padding:14px 8px;border:1px solid #2a2a2a}
-body.light .dash-card{background:#f0f4ff;border-color:#ddd}
-.dash-num{font-size:24px;font-weight:800;color:#4ade80}
-.dash-label{font-size:11px;color:#888;margin-top:4px}
-.visit-counter{text-align:center;padding:12px;font-size:13px;opacity:.7}
-.visit-counter span{color:#00d4ff;font-weight:700;font-size:18px}
+.card-dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.35);transition:all .2s}
+.card-dot.active{background:#4ade80;width:14px;border-radius:3px}
 .card-body{padding:14px 16px 16px}
-.card-name{font-size:16px;font-weight:700;margin-bottom:4px}
-.card-desc{font-size:13px;color:#aaa;margin-bottom:10px;line-height:1.4}
+.card-name{font-size:15px;font-weight:700;margin-bottom:4px;color:#f1f5f9}
+.card-desc{font-size:13px;color:#64748b;margin-bottom:10px;line-height:1.4}
 .card-meta{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
-.card-price{background:rgba(74,222,128,.12);color:#4ade80;padding:4px 10px;border-radius:8px;font-size:13px;font-weight:600}
-.card-price.free{background:rgba(250,204,21,.12);color:#facc15}
-.card-time{color:#888;font-size:12px}
-.card-highlight{width:100%;margin-top:8px;padding:6px 10px;border-radius:8px;background:rgba(249,115,22,.12);color:#fb923c;font-size:13px;font-weight:600}
-.card-directions{display:inline-flex;align-items:center;gap:4px;margin-top:8px;padding:6px 12px;border-radius:8px;background:rgba(59,130,246,.12);color:#60a5fa;font-size:12px;font-weight:600;text-decoration:none;border:1px solid rgba(59,130,246,.2);transition:all .2s}
-.card-directions:hover{background:rgba(59,130,246,.25);border-color:#60a5fa}
+.card-price{background:rgba(74,222,128,.1);color:#4ade80;padding:4px 10px;border-radius:8px;font-size:13px;font-weight:600}
+.card-price.free{background:rgba(250,204,21,.1);color:#facc15}
+.card-time{color:#475569;font-size:12px}
+.card-highlight{width:100%;margin-top:8px;padding:6px 10px;border-radius:8px;background:rgba(249,115,22,.1);color:#fb923c;font-size:13px;font-weight:600}
+.card-directions{display:inline-flex;align-items:center;gap:4px;margin-top:8px;padding:6px 12px;border-radius:8px;background:rgba(59,130,246,.1);color:#60a5fa;font-size:12px;font-weight:600;text-decoration:none;border:1px solid rgba(59,130,246,.15);transition:all .2s}
+.card-directions:hover{background:rgba(59,130,246,.2);border-color:#60a5fa}
 .card-badges{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px}
 .badge{padding:3px 8px;border-radius:6px;font-size:11px;font-weight:700;letter-spacing:.3px}
-.badge-popular{background:rgba(250,204,21,.15);color:#facc15;border:1px solid rgba(250,204,21,.3)}
-.badge-free{background:rgba(74,222,128,.15);color:#4ade80;border:1px solid rgba(74,222,128,.3)}
-.badge-photo{background:rgba(168,85,247,.15);color:#c084fc;border:1px solid rgba(168,85,247,.3)}
-.badge-adventure{background:rgba(249,115,22,.15);color:#fb923c;border:1px solid rgba(249,115,22,.3)}
-.badge-football{background:rgba(96,165,250,.15);color:#60a5fa;border:1px solid rgba(96,165,250,.3)}
-.card-price-alt{font-size:11px;color:#666;font-weight:400;margin-left:4px}
-.reviews-section{padding:0 12px 12px;max-width:800px;margin:0 auto}
-.review-card{background:#161616;border-radius:14px;padding:14px 16px;border:1px solid #2a2a2a;margin-bottom:8px}
+.badge-popular{background:rgba(250,204,21,.1);color:#facc15;border:1px solid rgba(250,204,21,.2)}
+.badge-free{background:rgba(74,222,128,.1);color:#4ade80;border:1px solid rgba(74,222,128,.2)}
+.badge-photo{background:rgba(168,85,247,.1);color:#c084fc;border:1px solid rgba(168,85,247,.2)}
+.badge-adventure{background:rgba(249,115,22,.1);color:#fb923c;border:1px solid rgba(249,115,22,.2)}
+.badge-football{background:rgba(96,165,250,.1);color:#60a5fa;border:1px solid rgba(96,165,250,.2)}
+.card-price-alt{font-size:11px;color:#475569;font-weight:400;margin-left:4px}
+
+/* ===== TRANSPORT CARDS ===== */
+.transport-card{background:#131b2e;border-radius:14px;padding:16px;border:1px solid rgba(255,255,255,.06);margin:0 12px 10px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;transition:transform .2s}
+.transport-card:hover{transform:translateY(-1px)}
+.transport-name{font-size:14px;font-weight:600;flex:1;min-width:200px;color:#f1f5f9}
+.transport-desc{font-size:12px;color:#64748b;flex-basis:100%}
+.transport-capacity{font-size:11px;color:#475569}
+.transport-price{text-align:right}
+.transport-price .br{color:#4ade80;font-weight:700;font-size:15px}
+.transport-price .usd{color:#60a5fa;font-size:12px}
+
+/* ===== REVIEW CARDS ===== */
+.reviews-section{padding:0 12px 12px}
+.review-card{background:#131b2e;border-radius:14px;padding:14px 16px;border:1px solid rgba(255,255,255,.06);margin-bottom:8px}
 .review-header{display:flex;align-items:center;gap:10px;margin-bottom:6px}
 .review-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#4ade80,#60a5fa);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#000}
-.review-name{font-size:14px;font-weight:600}
+.review-name{font-size:14px;font-weight:600;color:#f1f5f9}
 .review-stars{color:#facc15;font-size:13px;letter-spacing:1px}
-.review-text{font-size:13px;color:#aaa;line-height:1.4}
-.review-origin{font-size:11px;color:#555;margin-top:4px}
-.timeline-section{padding:0 12px 12px;max-width:800px;margin:0 auto}
+.review-text{font-size:13px;color:#94a3b8;line-height:1.4}
+.review-origin{font-size:11px;color:#475569;margin-top:4px}
+
+/* ===== TIMELINE ===== */
+.timeline-section{padding:0 12px 12px}
 .timeline-btns{display:flex;gap:8px;justify-content:center;margin-bottom:12px;flex-wrap:wrap}
-.timeline-btn{background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.3);color:#4ade80;padding:8px 18px;border-radius:20px;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s}
-.timeline-btn.active,.timeline-btn:hover{background:rgba(74,222,128,.25);border-color:#4ade80}
-.timeline-route{background:#161616;border-radius:14px;padding:16px;border:1px solid #2a2a2a}
+.timeline-btn{background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);color:#4ade80;padding:8px 18px;border-radius:20px;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s}
+.timeline-btn.active,.timeline-btn:hover{background:rgba(74,222,128,.18);border-color:#4ade80}
+.timeline-route{background:#131b2e;border-radius:14px;padding:16px;border:1px solid rgba(255,255,255,.06)}
 .timeline-step{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
 .timeline-dot{width:12px;height:12px;border-radius:50%;background:#4ade80;margin-top:4px;flex-shrink:0}
 .timeline-step:last-child .timeline-dot{background:#60a5fa}
 .timeline-line{position:relative}
-.timeline-step:not(:last-child) .timeline-dot::after{content:'';position:absolute;left:5px;top:16px;width:2px;height:calc(100% + 6px);background:#2a2a2a}
+.timeline-step:not(:last-child) .timeline-dot::after{content:'';position:absolute;left:5px;top:16px;width:2px;height:calc(100% + 6px);background:rgba(255,255,255,.08)}
 .timeline-step-info{flex:1}
-.timeline-step-name{font-size:14px;font-weight:600}
-.timeline-step-detail{font-size:12px;color:#888}
-.transport-section{padding:0 12px 12px;max-width:800px;margin:0 auto}
-.transport-card{background:#161616;border-radius:14px;padding:14px 16px;border:1px solid #2a2a2a;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
-.transport-name{font-size:14px;font-weight:600;flex:1;min-width:200px}
-.transport-desc{font-size:12px;color:#888;flex-basis:100%}
-.transport-capacity{font-size:11px;color:#666}
-.transport-price{text-align:right}
-.transport-price .br{color:#4ade80;font-weight:700;font-size:15px}
-.transport-price .usd{color:#60a5fa;font-size:12px}
-.whatsapp-float{position:fixed;bottom:20px;right:16px;z-index:200;background:#25d366;color:#fff;border:none;border-radius:50%;width:60px;height:60px;font-size:28px;cursor:pointer;box-shadow:0 4px 15px rgba(37,211,102,.4);display:flex;align-items:center;justify-content:center;text-decoration:none}
+.timeline-step-name{font-size:14px;font-weight:600;color:#f1f5f9}
+.timeline-step-detail{font-size:12px;color:#64748b}
+
+/* ===== QUIZ ===== */
+.quiz-section{padding:0 12px 12px}
+.quiz-box{background:linear-gradient(135deg,#131b2e,#162032);border-radius:16px;padding:24px;margin:0 auto;border:1px solid rgba(255,255,255,.06)}
+.quiz-title{font-size:20px;font-weight:700;margin-bottom:16px;text-align:center}
+.quiz-q{font-size:16px;margin-bottom:12px;font-weight:600;color:#f1f5f9}
+.quiz-opts{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.quiz-opt{padding:10px 14px;border:2px solid rgba(255,255,255,.1);border-radius:10px;cursor:pointer;transition:all .2s;font-size:14px;background:rgba(255,255,255,.03);color:#cbd5e1}
+.quiz-opt:hover,.quiz-opt.sel{border-color:#60a5fa;background:rgba(96,165,250,.1);color:#e2e8f0}
+.quiz-next{display:block;margin:0 auto;padding:10px 28px;border:none;border-radius:8px;background:#4ade80;color:#000;font-weight:700;cursor:pointer;font-size:15px}
+.quiz-result{text-align:center;padding:16px}
+.quiz-result img{width:100%;height:160px;object-fit:cover;border-radius:12px;margin-bottom:12px}
+.quiz-result-name{font-size:22px;font-weight:700;color:#4ade80;margin-bottom:8px}
+.quiz-result-desc{font-size:14px;opacity:.85;margin-bottom:16px}
+.quiz-restart{padding:8px 20px;border:2px solid #4ade80;background:transparent;color:#4ade80;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600}
+
+/* ===== VIDEO ===== */
+.video-card{background:#131b2e;border-radius:12px;overflow:hidden;margin:0 12px 12px;border:1px solid rgba(255,255,255,.06)}
+.video-wrap{position:relative;width:100%;padding-bottom:56.25%;background:#000}
+.video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
+.video-label{padding:10px 14px;font-size:13px;font-weight:600;color:#cbd5e1}
+
+/* ===== RATE ===== */
+.rate-section{max-width:420px;margin:16px auto;padding:20px;background:#131b2e;border-radius:14px;border:1px solid rgba(255,255,255,.06);text-align:center}
+.rate-title{font-size:16px;font-weight:700;margin-bottom:12px;color:#f1f5f9}
+.rate-stars{display:flex;justify-content:center;gap:8px;margin-bottom:12px}
+.rate-star{font-size:32px;cursor:pointer;transition:transform .15s;opacity:.3}
+.rate-star:hover,.rate-star.active{opacity:1;transform:scale(1.2)}
+.rate-msg{font-size:13px;min-height:20px;color:#4ade80}
+.rate-input{width:80%;padding:8px 12px;border-radius:8px;border:1px solid rgba(255,255,255,.1);background:#0f1628;color:#e2e8f0;font-size:13px;margin:8px 0;resize:none}
+.rate-send{padding:8px 20px;border:none;border-radius:8px;background:#4ade80;color:#000;font-weight:700;cursor:pointer;font-size:13px}
+.rate-send:disabled{opacity:.4;cursor:default}
+.rate-list{max-width:420px;margin:0 auto 16px;text-align:left}
+.rate-item{background:#131b2e;border-radius:10px;padding:10px 14px;margin-bottom:8px;border:1px solid rgba(255,255,255,.06)}
+.rate-item-stars{color:#facc15;font-size:14px;margin-bottom:4px}
+.rate-item-text{font-size:13px;color:#94a3b8}
+.rate-item-date{font-size:11px;color:#475569;margin-top:4px}
+
+/* ===== CRUISE ===== */
+.cruise-section{max-width:420px;margin:0 auto 16px;padding:0 12px}
+.cruise-card{background:#131b2e;border-radius:12px;padding:14px 16px;margin-bottom:8px;border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:12px}
+.cruise-date{background:linear-gradient(135deg,#4ade80,#22c55e);color:#000;border-radius:10px;padding:8px 10px;text-align:center;min-width:52px;flex-shrink:0}
+.cruise-date-day{font-size:20px;font-weight:800;line-height:1}
+.cruise-date-month{font-size:10px;font-weight:700;text-transform:uppercase}
+.cruise-info{flex:1}
+.cruise-ship{font-size:14px;font-weight:600;color:#f1f5f9}
+.cruise-line{font-size:11px;color:#64748b;margin-top:2px}
+.cruise-status{font-size:10px;padding:3px 8px;border-radius:6px;font-weight:600}
+.cruise-status.in{background:rgba(74,222,128,.12);color:#4ade80}
+.cruise-status.out{background:rgba(96,165,250,.12);color:#60a5fa}
+.cruise-empty{text-align:center;padding:20px;font-size:13px;color:#64748b}
+
+/* ===== PUSH ===== */
+.push-btn{display:block;margin:12px auto;padding:10px 24px;border:none;border-radius:8px;background:#4ade80;color:#000;font-weight:700;cursor:pointer;font-size:13px}
+.push-btn:disabled{opacity:.4;cursor:default}
+
+/* ===== DASHBOARD ===== */
+.dash-section{max-width:420px;margin:16px auto;padding:20px;background:#131b2e;border-radius:14px;border:1px solid rgba(255,255,255,.06)}
+.dash-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;text-align:center}
+.dash-card{background:rgba(255,255,255,.04);border-radius:12px;padding:14px 8px}
+.dash-num{font-size:28px;font-weight:800;color:#4ade80}
+.dash-label{font-size:10px;color:#64748b;margin-top:4px}
+
+/* ===== VISIT COUNTER ===== */
+.visit-counter{text-align:center;padding:12px;font-size:12px;color:#475569}
+
+/* ===== FOOTER ===== */
+.footer{text-align:center;padding:24px 16px 40px;font-size:11px;color:#475569;max-width:600px;margin:0 auto}
+.footer .prices-note{background:#131b2e;border-radius:8px;padding:10px 14px;margin-bottom:12px;color:#64748b;font-size:11px;border:1px solid rgba(255,255,255,.04)}
+
+/* ===== WHATSAPP FLOAT ===== */
+.whatsapp-float{position:fixed;bottom:20px;right:16px;z-index:200;background:#25d366;color:#fff;border:none;border-radius:50%;width:56px;height:56px;font-size:26px;cursor:pointer;box-shadow:0 4px 20px rgba(37,211,102,.35);display:flex;align-items:center;justify-content:center;text-decoration:none;transition:transform .2s}
 .whatsapp-float:hover{transform:scale(1.1)}
-.footer{text-align:center;padding:24px 16px 40px;font-size:11px;color:#555;max-width:600px;margin:0 auto}
-.footer .prices-note{background:#1a1a1a;border-radius:8px;padding:10px 14px;margin-bottom:12px;color:#888;font-size:11px}
-.theme-toggle{position:fixed;top:16px;right:16px;z-index:150;width:44px;height:44px;border-radius:50%;border:1px solid #333;background:#1a1a1a;color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s;box-shadow:0 2px 10px rgba(0,0,0,.3)}
-.theme-toggle:hover{transform:scale(1.1)}
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.card,.transport-card,.review-card,.timeline-route,.quiz-box,.video-card{animation:fadeUp .4s ease-out both}
-.card:nth-child(2){animation-delay:.05s}.card:nth-child(3){animation-delay:.1s}.card:nth-child(4){animation-delay:.15s}
-.card:nth-child(5){animation-delay:.2s}.card:nth-child(6){animation-delay:.25s}.card:nth-child(7){animation-delay:.3s}
-.card:nth-child(8){animation-delay:.35s}.card:nth-child(9){animation-delay:.4s}.card:nth-child(10){animation-delay:.45s}
-.card:nth-child(11){animation-delay:.5s}.card:nth-child(12){animation-delay:.55s}
-body.light{background:#f5f5f5;color:#1a1a1a}
-body.light .header{background:linear-gradient(135deg,#0d4f3c,#1a7a5a,#0d4f3c)}
-body.light .card,body.light .transport-card,body.light .review-card,body.light .timeline-route{background:#fff;border-color:#e0e0e0}
-body.light .card-name,body.light .transport-name,body.light .review-name,body.light .timeline-step-name{color:#1a1a1a}
-body.light .card-desc,body.light .transport-desc,body.light .review-text{color:#666}
-body.light .card-time,body.light .transport-capacity,body.light .review-origin,body.light .timeline-step-detail{color:#999}
-body.light .quiz-box{background:#fff;border:1px solid #e0e0e0}
+
+/* ===== SECTION TITLE ===== */
+.section-title{text-align:center;padding:20px 16px 8px;font-size:12px;font-weight:700;color:#4ade80;letter-spacing:1.5px;text-transform:uppercase}
+
+/* ===== LIGHT THEME ===== */
+body.light{background:#f1f5f9;color:#1e293b}
+body.light .sidebar{background:#fff;border-color:#e2e8f0}
+body.light .sidebar-header{background:linear-gradient(135deg,#0d4f3c,#1a7a5a)}
+body.light .sidebar-item{color:#64748b}
+body.light .sidebar-item:hover{background:#f1f5f9;color:#1e293b}
+body.light .sidebar-item.active{color:#0d4f3c;background:rgba(13,79,60,.08)}
+body.light .sidebar-item.active .nav-icon{background:rgba(13,79,60,.12)}
+body.light .sidebar-divider{background:#e2e8f0}
+body.light .sidebar-theme span{color:#64748b}
+body.light .sidebar-lang .lang-btn{background:#f1f5f9;border-color:#e2e8f0;color:#64748b}
+body.light .sidebar-lang .lang-btn.active{background:rgba(13,79,60,.1);border-color:#0d4f3c;color:#0d4f3c}
+body.light .topbar{background:rgba(241,245,249,.9);border-color:#e2e8f0}
+body.light .topbar-hamburger{color:#1e293b}
+body.light .topbar-title{color:#1e293b}
+body.light .card,body.light .transport-card,body.light .review-card,body.light .timeline-route{background:#fff;border-color:#e2e8f0}
+body.light .card:hover{box-shadow:0 8px 30px rgba(0,0,0,.08)}
+body.light .card-name,body.light .transport-name,body.light .review-name,body.light .timeline-step-name{color:#1e293b}
+body.light .card-desc,body.light .transport-desc,body.light .review-text{color:#64748b}
+body.light .card-time,body.light .transport-capacity,body.light .review-origin,body.light .timeline-step-detail{color:#94a3b8}
+body.light .quiz-box{background:#fff;border:1px solid #e2e8f0}
+body.light .quiz-opt{border-color:#e2e8f0;background:#f8fafc;color:#475569}
+body.light .quiz-opt:hover,body.light .quiz-opt.sel{border-color:#0d4f3c;background:rgba(13,79,60,.06);color:#1e293b}
+body.light .quiz-q{color:#1e293b}
 body.light .section-title{color:#0d4f3c}
-body.light .footer{color:#999}
-body.light .footer .prices-note{background:#eee;color:#666}
-body.light .theme-toggle{background:#fff;color:#1a1a1a;border-color:#ddd}
-body.light .card-price-alt{color:#999}
+body.light .footer{color:#94a3b8}
+body.light .footer .prices-note{background:#fff;border-color:#e2e8f0;color:#64748b}
+body.light .theme-switch{background:#cbd5e1}
+body.light .theme-switch.light{background:#4ade80}
+body.light .card-price-alt{color:#94a3b8}
 body.light .timeline-dot{background:#0d4f3c}
-body.light .timeline-step:not(:last-child) .timeline-dot::after{background:#ddd}
+body.light .timeline-step:not(:last-child) .timeline-dot::after{background:#e2e8f0}
+body.light .video-card{background:#fff;border-color:#e2e8f0}
+body.light .video-label{color:#475569}
+body.light .rate-section,body.light .rate-item{background:#fff;border-color:#e2e8f0}
+body.light .rate-input{background:#f8fafc;border-color:#e2e8f0;color:#1e293b}
+body.light .rate-title{color:#1e293b}
+body.light .cruise-card{background:#fff;border-color:#e2e8f0}
+body.light .cruise-ship{color:#1e293b}
+body.light .cruise-line{color:#94a3b8}
+body.light .dash-section{background:#fff;border-color:#e2e8f0}
+body.light .dash-card{background:#f8fafc}
+body.light .visit-counter{color:#94a3b8}
+body.light .card-carousel{background:#f1f5f9}
+body.light .quiz-result-name{color:#0d4f3c}
+body.light .sec-header h2{color:#1e293b}
+body.light .sec-header p{color:#94a3b8}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.card,.transport-card,.review-card,.timeline-route,.quiz-box,.video-card{animation:fadeUp .35s ease-out both}
+.card:nth-child(2){animation-delay:.04s}.card:nth-child(3){animation-delay:.08s}.card:nth-child(4){animation-delay:.12s}
+.card:nth-child(5){animation-delay:.16s}.card:nth-child(6){animation-delay:.2s}.card:nth-child(7){animation-delay:.24s}
+.card:nth-child(8){animation-delay:.28s}.card:nth-child(9){animation-delay:.32s}.card:nth-child(10){animation-delay:.36s}
+.card:nth-child(11){animation-delay:.4s}.card:nth-child(12){animation-delay:.44s}
+
+/* Sidebar scrollbar */
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-track{background:transparent}
+.sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.1);border-radius:4px}
+
+/* Hide elements handled by sidebar */
+.lang-btns{display:none}
+.theme-toggle{display:none}
 </style>
 </head>
 <body>
 
-<div class="header">
-  <h1>&#128663; SANTOS CITY TOURS</h1>
-  <div class="sub" id="subtitle"></div>
-  <div class="lang-btns">
+<!-- SIDEBAR OVERLAY -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <h2>&#128663; Santos Tours</h2>
+    <div class="side-sub">Transporte Executivo</div>
+    <button class="sidebar-close" onclick="closeSidebar()">&#10005;</button>
+  </div>
+  <div class="sidebar-lang">
     <button class="lang-btn active" onclick="setLang('pt')">&#127463;&#127479; PT</button>
     <button class="lang-btn" onclick="setLang('en')">&#127482;&#127480; EN</button>
     <button class="lang-btn" onclick="setLang('es')">&#127466;&#127480; ES</button>
   </div>
+  <div class="sidebar-nav">
+    <button class="sidebar-item active" data-section="spots" onclick="goSection('spots')">
+      <span class="nav-icon">&#128205;</span> <span id="navSpots"></span>
+    </button>
+    <button class="sidebar-item" data-section="transport" onclick="goSection('transport')">
+      <span class="nav-icon">&#128663;</span> <span id="navTransport"></span>
+    </button>
+    <div class="sidebar-divider"></div>
+    <button class="sidebar-item" data-section="cruise" onclick="goSection('cruise')">
+      <span class="nav-icon">&#128674;</span> <span id="navCruise"></span>
+    </button>
+    <button class="sidebar-item" data-section="timeline" onclick="goSection('timeline')">
+      <span class="nav-icon">&#128504;</span> <span id="navTimeline"></span>
+    </button>
+    <button class="sidebar-item" data-section="quiz" onclick="goSection('quiz')">
+      <span class="nav-icon">&#127919;</span> <span id="navQuiz"></span>
+    </button>
+    <div class="sidebar-divider"></div>
+    <button class="sidebar-item" data-section="videos" onclick="goSection('videos')">
+      <span class="nav-icon">&#127916;</span> <span id="navVideos"></span>
+    </button>
+    <button class="sidebar-item" data-section="reviews" onclick="goSection('reviews')">
+      <span class="nav-icon">&#11088;</span> <span id="navReviews"></span>
+    </button>
+    <button class="sidebar-item" data-section="rate" onclick="goSection('rate')">
+      <span class="nav-icon">&#11088;</span> <span id="navRate"></span>
+    </button>
+    <div class="sidebar-divider"></div>
+    <button class="sidebar-item" data-section="dash" onclick="goSection('dash')">
+      <span class="nav-icon">&#128202;</span> <span id="navDash"></span>
+    </button>
+  </div>
+  <div class="sidebar-theme">
+    <span id="themeLabel">Modo Claro</span>
+    <button class="theme-switch" id="themeSwitch" onclick="toggleTheme()"></button>
+  </div>
 </div>
 
-<div class="section-title" id="spotsTitle"></div>
-<div class="cards" id="spots-cards"></div>
-
-<div class="section-title" id="cruiseTitle"></div>
-<div class="cruise-section" id="cruise-section"></div>
-<div class="section-title" id="reviewsTitle"></div>
-<div class="reviews-section" id="reviews-cards"></div>
-
-<div class="section-title" id="timelineTitle"></div>
-<div class="timeline-section" id="timeline-section">
-<div class="timeline-btns" id="timeline-btns"></div>
-<div class="timeline-route" id="timeline-route" style="display:none"></div>
+<!-- TOP BAR -->
+<div class="topbar">
+  <button class="topbar-hamburger" onclick="openSidebar()">&#9776;</button>
+  <div class="topbar-title"><span class="logo-icon">&#128663;</span> <span id="topTitle">SANTOS CITY TOURS</span></div>
+  <a href="https://wa.me/5513997042065" target="_blank" class="topbar-wa" id="waBtn">&#128172;</a>
 </div>
 
-<div class="section-title" id="quizTitle"></div>
-<div class="quiz-section" id="quiz-cards"></div>
-<div class="section-title" id="transportTitle"></div>
-<div class="transport-section" id="transport-cards"></div>
+<!-- MAIN CONTENT -->
+<div class="main">
 
-<div class="section-title" id="videoTitle"></div>
-<div class="video-section" id="video-section"></div>
-<div class="visit-counter" id="visitCounter"></div>
-<div class="section-title" id="dashTitle"></div>
-<div class="dash-section" id="dash-section"></div>
-<div style="text-align:center;padding:8px 0">
-<button class="push-btn" id="pushBtn" onclick="enablePush()"></button>
+  <!-- SECTION: Pontos Turisticos -->
+  <div class="page-section active" id="sec-spots">
+    <div class="sec-header"><h2><span class="sec-icon">&#128205;</span> <span id="spotsTitle"></span></h2></div>
+    <div class="cards" id="spots-cards"></div>
+  </div>
+
+  <!-- SECTION: Transporte -->
+  <div class="page-section" id="sec-transport">
+    <div class="sec-header"><h2><span class="sec-icon">&#128663;</span> <span id="transportTitle"></span></h2></div>
+    <div class="transport-section" id="transport-cards"></div>
+  </div>
+
+  <!-- SECTION: Cruzeiros -->
+  <div class="page-section" id="sec-cruise">
+    <div class="sec-header"><h2><span class="sec-icon">&#128674;</span> <span id="cruiseTitle"></span></h2></div>
+    <div class="cruise-section" id="cruise-section"></div>
+  </div>
+
+  <!-- SECTION: Roteiro -->
+  <div class="page-section" id="sec-timeline">
+    <div class="sec-header"><h2><span class="sec-icon">&#128504;</span> <span id="timelineTitle"></span></h2></div>
+    <div class="timeline-section" id="timeline-section">
+      <div class="timeline-btns" id="timeline-btns"></div>
+      <div class="timeline-route" id="timeline-route" style="display:none"></div>
+    </div>
+  </div>
+
+  <!-- SECTION: Quiz -->
+  <div class="page-section" id="sec-quiz">
+    <div class="sec-header"><h2><span class="sec-icon">&#127919;</span> <span id="quizTitle"></span></h2></div>
+    <div class="quiz-section" id="quiz-cards"></div>
+  </div>
+
+  <!-- SECTION: Videos -->
+  <div class="page-section" id="sec-videos">
+    <div class="sec-header"><h2><span class="sec-icon">&#127916;</span> <span id="videoTitle"></span></h2></div>
+    <div class="visit-counter" id="visitCounter"></div>
+    <div id="video-section"></div>
+  </div>
+
+  <!-- SECTION: Reviews -->
+  <div class="page-section" id="sec-reviews">
+    <div class="sec-header"><h2><span class="sec-icon">&#11088;</span> <span id="reviewsTitle"></span></h2></div>
+    <div class="reviews-section" id="reviews-cards"></div>
+  </div>
+
+  <!-- SECTION: Rating -->
+  <div class="page-section" id="sec-rate">
+    <div class="sec-header"><h2><span class="sec-icon">&#11088;</span> <span id="rateTitle"></span></h2></div>
+    <div class="rate-section" id="rate-section"></div>
+    <div class="rate-list" id="rate-list"></div>
+  </div>
+
+  <!-- SECTION: Dashboard -->
+  <div class="page-section" id="sec-dash">
+    <div class="sec-header"><h2><span class="sec-icon">&#128202;</span> <span id="dashTitle"></span></h2></div>
+    <div class="dash-section" id="dash-section"></div>
+    <div style="text-align:center;padding:8px 0">
+      <button class="push-btn" id="pushBtn" onclick="enablePush()"></button>
+    </div>
+  </div>
+
+  <!-- FOOTER (always visible) -->
+  <div class="footer">
+    <div class="prices-note" id="pricesNote"></div>
+    <div id="footerText"></div>
+  </div>
+
 </div>
-<div class="section-title" id="rateTitle"></div>
-<div class="rate-section" id="rate-section"></div>
-<div class="rate-list" id="rate-list"></div>
-<div class="footer">
-  <div class="prices-note" id="pricesNote"></div>
-  <div id="footerText"></div>
-</div>
 
-<button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Light/Dark">&#9790;</button>
-
-<a href="https://wa.me/5513997042065" target="_blank" class="whatsapp-float" id="waBtn">&#128172;</a>
+<a href="https://wa.me/5513997042065" target="_blank" class="whatsapp-float" id="waBtnFloat">&#128172;</a>
 
 <script>
+
 var T={"pt": {"sub": "Transporte Executivo \u2022 Santos-SP", "spots": "\ud83d\udccd Pontos Tur\u00edsticos", "transport": "\ud83d\ude97 Nossos Passeios & Transfers", "note": "\u26a0\ufe0f Pre\u00e7os dos ingressos sujeitos a altera\u00e7\u00e3o.", "foot": "Pagamento: Pix ou Dinheiro \ud83d\udc9a", "free": "GR\u00c1TIS", "dir": "\ud83d\udccd Como Chegar", "wa": "Ol\u00e1! Vi o card\u00e1pio digital e gostaria de saber mais sobre os passeios em Santos.", "bPop": "\u2b50 Popular", "bFree": "\ud83e\uddf3 Gr\u00e1tis", "bPhoto": "\ud83d\udcf8 Foto Top", "bAdv": "\ud83e\uddfa Aventura", "bFoot": "\u26bd Futebol", "revTitle": "\u2b50 Avalia\u00e7\u00f5es", "tlTitle": "\ud83d\udd39 Monte seu Roteiro", "tl1h": "1 hora", "tl2h": "2 horas", "tl3h": "3 horas", "thLight": "Modo Claro", "thDark": "Modo Escuro", "videoTitle": "\ud83c\udfac V\u00eddeos dos Pontos", "visitTxt": "\ud83d\udc41\ufe0f Este card\u00e1pio foi visto", "visitTimes": "vezes", "quizTitle": "\ud83c\udfaf Qual ponto combina com voc\u00ea?", "quizRestart": "\ud83d\udd04 Refazer quiz", "quizNext": "Pr\u00f3ximo \u27a1\ufe0f", "quizSee": "Ver resultado \ud83c\udf1f", "quizQ1": "O que voc\u00ea prefere?", "quizQ1a": "\ud83c\udf0a Praia e natureza", "quizQ1b": "\u26bd Esporte e paix\u00e3o", "quizQ1c": "\ud83c\udfdb\ufe0f Cultura e hist\u00f3ria", "quizQ1d": "\ud83d\udcb0 Economia e gra\u00e7a", "quizQ2": "Qual o seu clima?", "quizQ2a": "\ud83d\udc0d Aventura radical", "quizQ2b": "\ud83d\udcf8 Foto perfeita", "quizQ2c": "\ud83e\uddd8 Relaxar e curtir", "quizQ2d": "\ud83d\udcda Aprender algo novo", "quizQ3": "Viajando com quem?", "quizQ3a": "\ud83d\udc6a Fam\u00edlia", "quizQ3b": "\ud83d\udc91 Casal", "quizQ3c": "\ud83e\udd1d Amigos", "quizQ3d": "\ud83e\uddd1 Solo", "rateTitle": "\u2b50 Avalie seu Passeio", "rateHint": "Toque nas estrelas!", "rateThanks": "Obrigado pela avalia\u00e7\u00e3o! \ud83d\ude4f", "ratePlaceholder": "Coment\u00e1rio (opcional)", "rateSend": "Enviar", "rateReviews": "\ud83d\udcdd Avalia\u00e7\u00f5es Recentes", "cruiseTitle": "\ud83d\udea2 Pr\u00f3ximos Cruzeiros", "cruiseIn": "Chegada", "cruiseOut": "Sa\u00edda", "cruiseNone": "Nenhum cruzeiro previsto nesta temporada", "dashTitle": "\ud83d\udcca Painel do Motorista", "dashViews": "Visualiza\u00e7\u00f5es", "dashRatings": "Avalia\u00e7\u00f5es", "dashToday": "Hoje", "pushEnable": "\ud83d\udd14 Ativar Notifica\u00e7\u00f5es", "pushEnabled": "\u2705 Notifica\u00e7\u00f5es Ativas", "pushNA": "Notifica\u00e7\u00f5es n\u00e3o suportadas neste navegador"}, "en": {"sub": "Executive Transport \u2022 Santos-SP", "spots": "\ud83d\udccd Tourist Spots", "transport": "\ud83d\ude97 Tours & Transfers", "note": "\u26a0\ufe0f Ticket prices subject to change.", "foot": "Payment: Pix or Cash \ud83d\udc9a", "free": "FREE", "dir": "\ud83d\udccd Get Directions", "wa": "Hi! I saw the digital menu and would like to know more about tours in Santos.", "bPop": "\u2b50 Popular", "bFree": "\ud83e\uddf3 Free", "bPhoto": "\ud83d\udcf8 Photo Spot", "bAdv": "\ud83e\uddfa Adventure", "bFoot": "\u26bd Football", "revTitle": "\u2b50 Reviews", "tlTitle": "\ud83d\udd39 Build Your Route", "tl1h": "1 hour", "tl2h": "2 hours", "tl3h": "3 hours", "thLight": "Light Mode", "thDark": "Dark Mode", "videoTitle": "\ud83c\udfac Spot Videos", "visitTxt": "\ud83d\udc41\ufe0f This menu was viewed", "visitTimes": "times", "quizTitle": "\ud83c\udfaf Which spot suits you?", "quizRestart": "\ud83d\udd04 Retake quiz", "quizNext": "Next \u27a1\ufe0f", "quizSee": "See result \ud83c\udf1f", "quizQ1": "What do you prefer?", "quizQ1a": "\ud83c\udf0a Beach & nature", "quizQ1b": "\u26bd Sport & passion", "quizQ1c": "\ud83c\udfdb\ufe0f Culture & history", "quizQ1d": "\ud83d\udcb0 Budget-friendly", "quizQ2": "What is your vibe?", "quizQ2a": "\ud83d\udc0d Radical adventure", "quizQ2b": "\ud83d\udcf8 Perfect photo", "quizQ2c": "\ud83e\uddd8 Relax & enjoy", "quizQ2d": "\ud83d\udcda Learn something new", "quizQ3": "Traveling with?", "quizQ3a": "\ud83d\udc6a Family", "quizQ3b": "\ud83d\udc91 Couple", "quizQ3c": "\ud83e\udd1d Friends", "quizQ3d": "\ud83e\uddd1 Solo", "rateTitle": "\u2b50 Rate Your Tour", "rateHint": "Tap the stars!", "rateThanks": "Thanks for your review! \ud83d\ude4f", "ratePlaceholder": "Comment (optional)", "rateSend": "Send", "rateReviews": "\ud83d\udcdd Recent Reviews", "cruiseTitle": "\ud83d\udea2 Upcoming Cruises", "cruiseIn": "Arrival", "cruiseOut": "Departure", "cruiseNone": "No cruises scheduled this season", "dashTitle": "\ud83d\udcca Driver Dashboard", "dashViews": "Views", "dashRatings": "Ratings", "dashToday": "Today", "pushEnable": "\ud83d\udd14 Enable Notifications", "pushEnabled": "\u2705 Notifications Enabled", "pushNA": "Notifications not supported in this browser"}, "es": {"sub": "Transporte Ejecutivo \u2022 Santos-SP", "spots": "\ud83d\udccd Puntos Tur\u00edsticos", "transport": "\ud83d\ude97 Tours & Traslados", "note": "\u26a0\ufe0f Precios de entradas sujetos a cambios.", "foot": "Pago: Pix o Efectivo \ud83d\udc9a", "free": "GRATIS", "dir": "\ud83d\udccd C\u00f3mo Llegar", "wa": "\u00a1Hola! Vi el men\u00fa digital y me gustar\u00eda saber m\u00e1s sobre los tours en Santos.", "bPop": "\u2b50 Popular", "bFree": "\ud83e\uddf3 Gratis", "bPhoto": "\ud83d\udcf8 Foto Top", "bAdv": "\ud83e\uddfa Aventura", "bFoot": "\u26bd F\u00fatbol", "revTitle": "\u2b50 Opiniones", "tlTitle": "\ud83d\udd39 Arma tu Ruta", "tl1h": "1 hora", "tl2h": "2 horas", "tl3h": "3 horas", "thLight": "Modo Claro", "thDark": "Modo Oscuro", "videoTitle": "\ud83c\udfac Videos de los Puntos", "visitTxt": "\ud83d\udc41\ufe0f Este men\u00fa fue visto", "visitTimes": "veces", "quizTitle": "\ud83c\udfaf \u00bfQu\u00e9 lugar te combina?", "quizRestart": "\ud83d\udd04 Rehacer quiz", "quizNext": "Siguiente \u27a1\ufe0f", "quizSee": "Ver resultado \ud83c\udf1f", "quizQ1": "\u00bfQu\u00e9 prefieres?", "quizQ1a": "\ud83c\udf0a Playa y naturaleza", "quizQ1b": "\u26bd Deporte y pasi\u00f3n", "quizQ1c": "\ud83c\udfdb\ufe0f Cultura e historia", "quizQ1d": "\ud83d\udcb0 Econ\u00f3mico", "quizQ2": "\u00bfCu\u00e1l es tu vibra?", "quizQ2a": "\ud83d\udc0d Aventura radical", "quizQ2b": "\ud83d\udcf8 Foto perfecta", "quizQ2c": "\ud83e\uddd8 Relajar y disfrutar", "quizQ2d": "\ud83d\udcda Aprender algo nuevo", "quizQ3": "\u00bfCon qui\u00e9n viajas?", "quizQ3a": "\ud83d\udc6a Familia", "quizQ3b": "\ud83d\udc91 Pareja", "quizQ3c": "\ud83e\udd1d Amigos", "quizQ3d": "\ud83e\uddd1 Solo", "rateTitle": "\u2b50 Califique su Tour", "rateHint": "\u00a1Toca las estrellas!", "rateThanks": "\u00a1Gracias por tu opini\u00f3n! \ud83d\ude4f", "ratePlaceholder": "Comentario (opcional)", "rateSend": "Enviar", "rateReviews": "\ud83d\udcdd Opiniones Recientes", "cruiseTitle": "\ud83d\ude8b Pr\u00f3ximos Cruceros", "cruiseIn": "Llegada", "cruiseOut": "Salida", "cruiseNone": "Ning\u00fan crucero previsto esta temporada", "dashTitle": "\ud83d\udcca Panel del Conductor", "dashViews": "Vistas", "dashRatings": "Opiniones", "dashToday": "Hoy", "pushEnable": "\ud83d\udd14 Activar Notificaciones", "pushEnabled": "\u2705 Notificaciones Activas", "pushNA": "Notificaciones no soportadas en este navegador"}};
 
 var EXTRA_PHOTOS={
@@ -287,17 +488,21 @@ function setLang(l){
   renderDashboard();
   renderRating();
   renderTimeline();
+  updateNavLabels();
 }
 
 function updateWA(){
   var t=T[lang];
   var msg=encodeURIComponent(t.wa);
-  document.getElementById("waBtn").href="https://wa.me/5513997042065?text="+msg;
+  var wa1=document.getElementById("waBtn");
+  var wa2=document.getElementById("waBtnFloat");
+  if(wa1) wa1.href="https://wa.me/5513997042065?text="+msg;
+  if(wa2) wa2.href="https://wa.me/5513997042065?text="+msg;
 }
 
 var theme='dark';
 (function(){var s=localStorage.getItem('santos-theme');if(s)theme=s;})();
-if(theme==='light'){document.body.classList.add('light');document.getElementById('themeBtn').innerHTML='\u2600';document.getElementById('themeColor').content='#f5f5f5';}
+if(theme==='light'){document.body.classList.add('light');document.getElementById('themeColor').content='#f1f5f9';var sw=document.getElementById('themeSwitch');if(sw)sw.classList.add('light');}
 
 function carouselNav(btn,dir){
   var carousel=btn.parentElement;
@@ -423,10 +628,14 @@ function initCounter(){
 function toggleTheme(){
   theme=(theme==='dark')?'light':'dark';
   document.body.classList.toggle('light');
-  var btn=document.getElementById('themeBtn');
   var meta=document.getElementById('themeColor');
-  if(theme==='light'){btn.innerHTML='\u2600';meta.content='#f5f5f5';}
-  else{btn.innerHTML='\u9790';meta.content='#0a0a0a';}
+  if(theme==='light'){meta.content='#f1f5f9';}
+  else{meta.content='#0a0f1a';}
+  var sw=document.getElementById('themeSwitch');
+  if(sw) sw.classList.toggle('light',theme==='light');
+  var t=T[lang]||T.pt;
+  var lbl=document.getElementById('themeLabel');
+  if(lbl) lbl.textContent=(theme==='light')?t.thDark:t.thLight;
   localStorage.setItem('santos-theme',theme);
 }
 
@@ -728,6 +937,50 @@ function loadRatings(){
 }
 
 render();renderCruises();renderReviews();renderQuiz();renderVideos();initCounter();renderDashboard();renderRating();renderTimeline();
+
+
+// ===== SIDEBAR NAVIGATION =====
+function openSidebar(){
+  document.getElementById('sidebar').classList.add('open');
+  document.getElementById('sidebarOverlay').classList.add('open');
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').classList.remove('open');
+}
+var currentSection='spots';
+function goSection(id){
+  // hide all sections
+  var secs=document.querySelectorAll('.page-section');
+  for(var i=0;i<secs.length;i++) secs[i].classList.remove('active');
+  // show target
+  var el=document.getElementById('sec-'+id);
+  if(el) el.classList.add('active');
+  // update sidebar active
+  var items=document.querySelectorAll('.sidebar-item');
+  for(var i=0;i<items.length;i++){
+    items[i].classList.toggle('active',items[i].dataset.section===id);
+  }
+  currentSection=id;
+  closeSidebar();
+  window.scrollTo(0,0);
+}
+// Update sidebar nav labels
+function updateNavLabels(){
+  var t=T[lang]||T.pt;
+  var el;
+  el=document.getElementById('navSpots'); if(el) el.textContent=t.spots.replace(/[\u{1F4CD}]/gu,'').trim();
+  el=document.getElementById('navTransport'); if(el) el.textContent=t.transport.replace(/[\u{1F697}]/gu,'').trim();
+  el=document.getElementById('navCruise'); if(el) el.textContent=t.cruiseTitle?t.cruiseTitle.replace(/[\u{1F6F4}\u{1F6A2}]/gu,'').trim():'Cruises';
+  el=document.getElementById('navTimeline'); if(el) el.textContent=t.tlTitle?t.tlTitle.replace(/[\u{1F539}]/gu,'').trim():'Roteiro';
+  el=document.getElementById('navQuiz'); if(el) el.textContent=t.quizTitle?t.quizTitle.replace(/[\u{1F3AF}]/gu,'').trim():'Quiz';
+  el=document.getElementById('navVideos'); if(el) el.textContent=t.videoTitle?t.videoTitle.replace(/[\u{1F3AC}]/gu,'').trim():'Videos';
+  el=document.getElementById('navReviews'); if(el) el.textContent=t.revTitle?t.revTitle.replace(/[\u2B50]/gu,'').trim():'Avaliacoes';
+  el=document.getElementById('navRate'); if(el) el.textContent=t.rateTitle?t.rateTitle.replace(/[\u2B50]/gu,'').trim():'Avaliar';
+  el=document.getElementById('navDash'); if(el) el.textContent=t.dashTitle?t.dashTitle.replace(/[\u{1F4CA}]/gu,'').trim():'Painel';
+  el=document.getElementById('themeLabel'); if(el) el.textContent=(theme==='light')?t.thDark:t.thLight;
+}
+updateNavLabels();
 </script>
 </body>
 </html>
