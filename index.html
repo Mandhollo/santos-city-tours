@@ -1543,6 +1543,13 @@ function updateNavLabels(){
   el=document.getElementById('navReviews'); if(el) el.textContent=t.revTitle?t.revTitle.replace(/[\u2B50]/gu,'').trim():'Avaliacoes';
   el=document.getElementById('navRate'); if(el) el.textContent=t.rateTitle?t.rateTitle.replace(/[\u2B50]/gu,'').trim():'Avaliar';
   el=document.getElementById('navDash'); if(el) el.textContent=t.dashTitle?t.dashTitle.replace(/[\u{1F4CA}]/gu,'').trim():'Painel';
+  el=document.getElementById('navChecklist'); if(el) el.textContent=t.checklistTitle||'Checklist';
+  // Category labels
+  el=document.getElementById('labelExplore'); if(el) el.textContent=t.labelExplore||'Explorar';
+  el=document.getElementById('labelCruise'); if(el) el.textContent=t.labelCruise||'Cruzeiros';
+  el=document.getElementById('labelFun'); if(el) el.textContent=t.labelFun||'Divers\u00e3o';
+  el=document.getElementById('labelMedia'); if(el) el.textContent=t.labelMedia||'M\u00eddia';
+  el=document.getElementById('labelAbout'); if(el) el.textContent=t.labelAbout||'Sobre';
   el=document.getElementById('themeLabel'); if(el) el.textContent=(theme==='light')?t.thDark:t.thLight;
 }
 updateNavLabels();
