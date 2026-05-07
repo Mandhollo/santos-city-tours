@@ -14,14 +14,16 @@
 /* ===== RESET & BASE ===== */
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0f1a;color:#e2e8f0;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0a0f1a;color:#e2e8f0;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative}
+body::before{content:'';position:fixed;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(ellipse at 20% 50%,rgba(74,222,128,.04) 0%,transparent 50%),radial-gradient(ellipse at 80% 20%,rgba(96,165,250,.04) 0%,transparent 50%),radial-gradient(ellipse at 50% 80%,rgba(168,85,247,.03) 0%,transparent 50%);z-index:-1;animation:bgFloat 20s ease-in-out infinite alternate;pointer-events:none}
+@keyframes bgFloat{0%{transform:translate(0,0) rotate(0deg)}100%{transform:translate(-3%,2%) rotate(2deg)}}
 
 /* ===== SIDEBAR OVERLAY ===== */
 .sidebar-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:998;opacity:0;visibility:hidden;transition:all .3s ease;backdrop-filter:blur(4px)}
 .sidebar-overlay.open{opacity:1;visibility:visible}
 
 /* ===== SIDEBAR ===== */
-.sidebar{position:fixed;top:0;left:-100%;width:85vw;max-width:280px;height:100vh;background:#0f1628;z-index:999;transition:left .35s cubic-bezier(.4,0,.2,1);overflow-y:auto;border-right:1px solid rgba(255,255,255,.06);padding-bottom:80px}
+.sidebar{position:fixed;top:0;left:-100%;width:85vw;max-width:280px;height:100vh;background:rgba(15,22,40,.85);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);z-index:999;transition:left .35s cubic-bezier(.4,0,.2,1);overflow-y:auto;border-right:1px solid rgba(255,255,255,.06);padding-bottom:80px;box-shadow:4px 0 30px rgba(0,0,0,.3)}
 .sidebar.open{left:0}
 .sidebar-header{padding:28px 20px 20px;background:linear-gradient(135deg,#0d4f3c,#1a7a5a);text-align:center}
 .sidebar-header h2{font-size:18px;font-weight:700;color:#fff;letter-spacing:.5px}
@@ -39,7 +41,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .sidebar-item{display:flex;align-items:center;gap:12px;padding:12px 18px;color:#94a3b8;min-height:44px;text-decoration:none;font-size:14px;font-weight:500;transition:all .2s;cursor:pointer;border:none;background:none;width:100%;text-align:left}
 .sidebar-item:hover{background:rgba(255,255,255,.04);color:#e2e8f0}
 .sidebar-item.active{color:#4ade80;background:rgba(74,222,128,.08)}
-.sidebar-item .nav-icon{width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;background:rgba(255,255,255,.05);flex-shrink:0}
+.sidebar-item .nav-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;background:rgba(255,255,255,.05);flex-shrink:0;color:#94a3b8}
+.sidebar-item.active .nav-icon{color:#4ade80}
+.sidebar-item .nav-icon svg{width:18px;height:18px}
 .sidebar-item.active .nav-icon{background:rgba(74,222,128,.15)}
 .sidebar-divider{height:1px;background:rgba(255,255,255,.06);margin:8px 20px}
 
@@ -52,12 +56,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .theme-switch.light::after{transform:translateX(22px)}
 
 /* ===== TOP BAR ===== */
-.topbar{position:sticky;top:0;z-index:100;background:rgba(10,15,26,.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,.06);padding:10px 12px;display:flex;align-items:center;gap:10px}
+.topbar{position:sticky;top:0;z-index:100;background:rgba(10,15,26,.7);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.04);padding:10px 12px;display:flex;align-items:center;gap:10px;box-shadow:0 1px 20px rgba(0,0,0,.2)}
 .topbar-hamburger{background:none;border:none;color:#e2e8f0;font-size:22px;cursor:pointer;padding:4px;display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:8px;transition:background .2s}
 .topbar-hamburger:hover{background:rgba(255,255,255,.08)}
 .topbar-title{flex:1;font-size:15px;font-weight:700;letter-spacing:.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 @media(min-width:480px){.topbar-title{font-size:17px}}
-.topbar-title .logo-icon{color:#4ade80}
+.topbar-title .logo-icon{color:#4ade80;display:inline-flex;align-items:center;margin-right:4px}.topbar-title .logo-icon svg{width:22px;height:22px}
 .topbar-wa{background:none;border:none;color:#25d366;font-size:22px;cursor:pointer;padding:4px;width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;transition:background .2s;text-decoration:none}
 .topbar-wa:hover{background:rgba(37,211,102,.1)}
 
@@ -71,8 +75,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
 /* Section headers */
-.sec-header{padding:20px 16px 12px}
-.sec-header h2{font-size:17px;font-weight:700;color:#e2e8f0;letter-spacing:.3px}
+.sec-header{padding:20px 16px 12px;border-bottom:1px solid rgba(255,255,255,.04);margin-bottom:12px}
+.sec-header h2{font-size:17px;font-weight:700;color:#e2e8f0;letter-spacing:.3px;display:flex;align-items:center;gap:8px}
+.sec-header h2 .sec-icon{color:#4ade80;display:flex;align-items:center}
+.sec-header h2 .sec-icon svg{width:20px;height:20px}
 @media(min-width:480px){.sec-header h2{font-size:20px}}
 .sec-header h2 .sec-icon{margin-right:6px}
 .sec-header p{font-size:13px;color:#64748b;margin-top:4px}
@@ -81,8 +87,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .cards{display:grid;grid-template-columns:1fr;gap:10px;padding:0 8px 14px}
 @media(min-width:480px){.cards{gap:12px;padding:0 12px 16px}}
 @media(min-width:600px){.cards{grid-template-columns:1fr 1fr}}
-.card{background:#131b2e;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.06);transition:transform .2s,box-shadow .2s}
-.card:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,0,0,.3)}
+.card{background:rgba(19,27,46,.65);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.08);transition:transform .2s,box-shadow .2s;box-shadow:0 4px 24px rgba(0,0,0,.2)}
+.card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(0,0,0,.35),0 0 0 1px rgba(74,222,128,.1)}
 .card-carousel{position:relative;width:100%;height:160px;overflow:hidden;background:#1a2332}
 @media(min-width:480px){.card-carousel{height:180px}}
 .card-carousel-track{display:flex;height:100%;transition:transform .3s ease}
@@ -115,7 +121,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .card-price-alt{font-size:11px;color:#475569;font-weight:400;margin-left:4px}
 
 /* ===== TRANSPORT CARDS ===== */
-.transport-card{background:#131b2e;border-radius:14px;padding:12px;border:1px solid rgba(255,255,255,.06);margin:0 8px 8px
+.transport-card{background:rgba(19,27,46,.65);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:14px;padding:12px;border:1px solid rgba(255,255,255,.08);margin:0 8px 8px;box-shadow:0 4px 20px rgba(0,0,0,.15)
 @media(min-width:480px){.transport-card{padding:16px;margin:0 12px 10px}};display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;transition:transform .2s}
 .transport-card:hover{transform:translateY(-1px)}
 .transport-name{font-size:14px;font-weight:600;flex:1;min-width:0;color:#f1f5f9}
@@ -127,7 +133,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
 /* ===== REVIEW CARDS ===== */
 .reviews-section{padding:0 12px 12px}
-.review-card{background:#131b2e;border-radius:14px;padding:14px 16px;border:1px solid rgba(255,255,255,.06);margin-bottom:8px}
+.review-card{background:rgba(19,27,46,.65);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:14px;padding:14px 16px;border:1px solid rgba(255,255,255,.08);margin-bottom:8px;box-shadow:0 4px 20px rgba(0,0,0,.15)}
 .review-header{display:flex;align-items:center;gap:10px;margin-bottom:6px}
 .review-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#4ade80,#60a5fa);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#000}
 .review-name{font-size:14px;font-weight:600;color:#f1f5f9}
@@ -140,7 +146,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .timeline-btns{display:flex;gap:8px;justify-content:center;margin-bottom:12px;flex-wrap:wrap}
 .timeline-btn{background:rgba(74,222,128,.08);border:1px solid rgba(74,222,128,.2);color:#4ade80;padding:8px 18px;border-radius:20px;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s}
 .timeline-btn.active,.timeline-btn:hover{background:rgba(74,222,128,.18);border-color:#4ade80}
-.timeline-route{background:#131b2e;border-radius:14px;padding:16px;border:1px solid rgba(255,255,255,.06)}
+.timeline-route{background:rgba(19,27,46,.65);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:14px;padding:16px;border:1px solid rgba(255,255,255,.08);box-shadow:0 4px 20px rgba(0,0,0,.15)}
 .timeline-step{display:flex;align-items:flex-start;gap:10px;margin-bottom:10px}
 .timeline-dot{width:12px;height:12px;border-radius:50%;background:#4ade80;margin-top:4px;flex-shrink:0}
 .timeline-step:last-child .timeline-dot{background:#60a5fa}
@@ -152,7 +158,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
 /* ===== QUIZ ===== */
 .quiz-section{padding:0 12px 12px}
-.quiz-box{background:linear-gradient(135deg,#131b2e,#162032);border-radius:14px;padding:18px 14px;margin:0 auto;border:1px solid rgba(255,255,255,.06)}
+.quiz-box{background:rgba(19,27,46,.65);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:14px;padding:18px 14px;margin:0 auto;border:1px solid rgba(255,255,255,.08);box-shadow:0 4px 24px rgba(0,0,0,.2)}
 @media(min-width:480px){.quiz-box{padding:24px}}
 .quiz-title{font-size:20px;font-weight:700;margin-bottom:16px;text-align:center}
 .quiz-q{font-size:16px;margin-bottom:12px;font-weight:600;color:#f1f5f9}
@@ -167,14 +173,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .quiz-restart{padding:8px 20px;border:2px solid #4ade80;background:transparent;color:#4ade80;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600}
 
 /* ===== VIDEO ===== */
-.video-card{background:#131b2e;border-radius:12px;overflow:hidden;margin:0 8px 10px;border:1px solid rgba(255,255,255,.06)}
+.video-card{background:rgba(19,27,46,.65);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:12px;overflow:hidden;margin:0 8px 10px;border:1px solid rgba(255,255,255,.08);box-shadow:0 4px 20px rgba(0,0,0,.15)}
 @media(min-width:480px){.video-card{margin:0 12px 12px}}
 .video-wrap{position:relative;width:100%;padding-bottom:56.25%;background:#000}
 .video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none}
 .video-label{padding:10px 14px;font-size:13px;font-weight:600;color:#cbd5e1}
 
 /* ===== RATE ===== */
-.rate-section{max-width:100%;margin:16px auto;padding:20px;background:#131b2e;border-radius:14px;border:1px solid rgba(255,255,255,.06);text-align:center}
+.rate-section{max-width:100%;margin:16px auto;padding:20px;background:rgba(19,27,46,.65);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:14px;border:1px solid rgba(255,255,255,.08);text-align:center;box-shadow:0 4px 20px rgba(0,0,0,.15)}
 .rate-title{font-size:16px;font-weight:700;margin-bottom:12px;color:#f1f5f9}
 .rate-stars{display:flex;justify-content:center;gap:8px;margin-bottom:12px}
 .rate-star{font-size:32px;cursor:pointer;transition:transform .15s;opacity:.3}
@@ -184,14 +190,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .rate-send{padding:8px 20px;border:none;border-radius:8px;background:#4ade80;color:#000;font-weight:700;cursor:pointer;font-size:13px}
 .rate-send:disabled{opacity:.4;cursor:default}
 .rate-list{max-width:100%;margin:0 auto 16px;text-align:left}
-.rate-item{background:#131b2e;border-radius:10px;padding:10px 14px;margin-bottom:8px;border:1px solid rgba(255,255,255,.06)}
+.rate-item{background:rgba(19,27,46,.5);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-radius:10px;padding:10px 14px;margin-bottom:8px;border:1px solid rgba(255,255,255,.06)}
 .rate-item-stars{color:#facc15;font-size:14px;margin-bottom:4px}
 .rate-item-text{font-size:13px;color:#94a3b8}
 .rate-item-date{font-size:11px;color:#475569;margin-top:4px}
 
 /* ===== CRUISE ===== */
 .cruise-section{max-width:100%;margin:0 auto 16px;padding:0 12px}
-.cruise-card{background:#131b2e;border-radius:12px;padding:14px 16px;margin-bottom:8px;border:1px solid rgba(255,255,255,.06);display:flex;align-items:center;gap:12px}
+.cruise-card{background:rgba(19,27,46,.65);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:12px;padding:14px 16px;margin-bottom:8px;border:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:12px;box-shadow:0 4px 20px rgba(0,0,0,.15)}
 .cruise-date{background:linear-gradient(135deg,#4ade80,#22c55e);color:#000;border-radius:10px;padding:8px 10px;text-align:center;min-width:52px;flex-shrink:0}
 .cruise-date-day{font-size:20px;font-weight:800;line-height:1}
 .cruise-date-month{font-size:10px;font-weight:700;text-transform:uppercase}
@@ -208,7 +214,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .push-btn:disabled{opacity:.4;cursor:default}
 
 /* ===== DASHBOARD ===== */
-.dash-section{max-width:100%;margin:16px auto;padding:20px;background:#131b2e;border-radius:14px;border:1px solid rgba(255,255,255,.06)}
+.dash-section{max-width:100%;margin:16px auto;padding:20px;background:rgba(19,27,46,.65);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:14px;border:1px solid rgba(255,255,255,.08);box-shadow:0 4px 20px rgba(0,0,0,.15)}
 .dash-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;text-align:center}
 .dash-card{background:rgba(255,255,255,.04);border-radius:12px;padding:14px 8px}
 .dash-num{font-size:28px;font-weight:800;color:#4ade80}
@@ -233,9 +239,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 body.light .transport-card.card-hot{border-color:rgba(249,115,22,.3);background:linear-gradient(135deg,#fff,#fff5f0)}
 
 /* ===== HIRE BUTTON (floating bottom) ===== */
-.hire-bar{position:fixed;bottom:0;left:0;right:0;z-index:190;padding:10px 16px;background:linear-gradient(to top,rgba(10,15,26,.95),rgba(10,15,26,.8));backdrop-filter:blur(12px);border-top:1px solid rgba(255,255,255,.06);display:flex;justify-content:center}
+.hire-bar{position:fixed;bottom:0;left:0;right:0;z-index:190;padding:10px 16px;background:rgba(10,15,26,.8);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,.04);display:flex;justify-content:center;box-shadow:0 -4px 30px rgba(0,0,0,.3)}
 body.light .hire-bar{background:linear-gradient(to top,rgba(241,245,249,.95),rgba(241,245,249,.8));border-color:#e2e8f0}
-.hire-btn{display:flex;align-items:center;gap:8px;padding:12px 24px;width:100%;max-width:320px;justify-content:center;border:none;border-radius:12px;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(34,197,94,.3);transition:transform .2s,box-shadow .2s;text-decoration:none}
+.hire-btn{display:flex;align-items:center;gap:8px;padding:12px 24px;width:100%;max-width:320px;justify-content:center;font-size:15px;font-weight:700;cursor:pointer;border-radius:12px;border:none;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;box-shadow:0 4px 20px rgba(34,197,94,.3);transition:transform .2s,box-shadow .2s;text-decoration:none;border:none;border-radius:12px;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(34,197,94,.3);transition:transform .2s,box-shadow .2s;text-decoration:none}
 .hire-btn:hover{transform:translateY(-2px);box-shadow:0 6px 25px rgba(34,197,94,.4)}
 .hire-btn:active{transform:scale(.97)}
 
@@ -270,7 +276,7 @@ body.light .leaflet-tile-pane{filter:none}
 .compare-grid{display:grid;grid-template-columns:1fr;gap:10px;max-width:400px;margin:0 auto}
 @media(min-width:480px){.compare-grid{grid-template-columns:1fr 1fr}}
 @media(min-width:700px){.compare-grid{grid-template-columns:1fr 1fr 1fr}}
-.compare-card{background:#131b2e;border-radius:14px;padding:16px 12px;border:1px solid rgba(255,255,255,.06);text-align:center;transition:transform .2s,border-color .2s}
+.compare-card{background:rgba(19,27,46,.65);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-radius:14px;padding:16px 12px;border:1px solid rgba(255,255,255,.08);text-align:center;transition:transform .2s,border-color .2s;box-shadow:0 4px 20px rgba(0,0,0,.15)}
 .compare-card:hover{transform:translateY(-2px);border-color:rgba(74,222,128,.3)}
 .compare-card.popular{border-color:rgba(74,222,128,.4);background:linear-gradient(135deg,#131b2e,#0f2018)}
 .compare-time{font-size:22px;font-weight:800;color:#4ade80;margin-bottom:2px}
@@ -288,6 +294,7 @@ body.light .compare-card.popular{border-color:#4ade80;background:linear-gradient
 
 /* ===== LIGHT THEME ===== */
 body.light{background:#f1f5f9;color:#1e293b}
+body.light::before{background:radial-gradient(ellipse at 20% 50%,rgba(74,222,128,.06) 0%,transparent 50%),radial-gradient(ellipse at 80% 20%,rgba(96,165,250,.05) 0%,transparent 50%)}
 body.light .sidebar{background:#fff;border-color:#e2e8f0}
 body.light .sidebar-header{background:linear-gradient(135deg,#0d4f3c,#1a7a5a)}
 body.light .sidebar-item{color:#64748b}
@@ -362,7 +369,7 @@ body.light .sec-header p{color:#94a3b8}
 <!-- SIDEBAR -->
 <div class="sidebar" id="sidebar">
   <div class="sidebar-header">
-    <h2>&#128663; Santos Tours</h2>
+    <h2><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg> Santos Tours</h2>
     <div class="side-sub">Transporte Executivo</div>
     <button class="sidebar-close" onclick="closeSidebar()">&#10005;</button>
   </div>
@@ -373,20 +380,20 @@ body.light .sec-header p{color:#94a3b8}
   </div>
   <div class="sidebar-nav">
     <button class="sidebar-item active" data-section="spots" onclick="goSection('spots')">
-      <span class="nav-icon">&#128205;</span> <span id="navSpots"></span>
+      <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span> <span id="navSpots"></span>
     </button>
     <button class="sidebar-item" data-section="transport" onclick="goSection('transport')">
-      <span class="nav-icon">&#128663;</span> <span id="navTransport"></span>
+      <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span> <span id="navTransport"></span>
     </button>
     <div class="sidebar-divider"></div>
     <button class="sidebar-item" data-section="cruise" onclick="goSection('cruise')">
-      <span class="nav-icon">&#128674;</span> <span id="navCruise"></span>
+      <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 21c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1 .6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M19.38 20A11.6 11.6 0 0 0 21 14l-9-4-9 4c0 2.9.94 5.34 2.81 7.76"/><path d="M19 13V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6"/><path d="M12 1v4"/></svg></span> <span id="navCruise"></span>
     </button>
     <button class="sidebar-item" data-section="timeline" onclick="goSection('timeline')">
-      <span class="nav-icon">&#128504;</span> <span id="navTimeline"></span>
+      <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span> <span id="navTimeline"></span>
     </button>
     <button class="sidebar-item" data-section="quiz" onclick="goSection('quiz')">
-      <span class="nav-icon">&#127919;</span> <span id="navQuiz"></span>
+      <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span> <span id="navQuiz"></span>
     </button>
     <button class="sidebar-item" data-section="map" onclick="goSection('map')">
       <span class="nav-icon">\ud83d\uddfa\ufe0f</span> <span id="navMap"></span>
@@ -396,17 +403,17 @@ body.light .sec-header p{color:#94a3b8}
     </button>
     <div class="sidebar-divider"></div>
     <button class="sidebar-item" data-section="videos" onclick="goSection('videos')">
-      <span class="nav-icon">&#127916;</span> <span id="navVideos"></span>
+      <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></span> <span id="navVideos"></span>
     </button>
     <button class="sidebar-item" data-section="reviews" onclick="goSection('reviews')">
-      <span class="nav-icon">&#11088;</span> <span id="navReviews"></span>
+      <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span> <span id="navReviews"></span>
     </button>
     <button class="sidebar-item" data-section="rate" onclick="goSection('rate')">
-      <span class="nav-icon">&#11088;</span> <span id="navRate"></span>
+      <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span> <span id="navRate"></span>
     </button>
     <div class="sidebar-divider"></div>
     <button class="sidebar-item" data-section="dash" onclick="goSection('dash')">
-      <span class="nav-icon">&#128202;</span> <span id="navDash"></span>
+      <span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span> <span id="navDash"></span>
     </button>
   </div>
   <div class="sidebar-theme">
@@ -418,7 +425,7 @@ body.light .sec-header p{color:#94a3b8}
 <!-- TOP BAR -->
 <div class="topbar">
   <button class="topbar-hamburger" onclick="openSidebar()">&#9776;</button>
-  <div class="topbar-title"><span class="logo-icon">&#128663;</span> <span id="topTitle">SANTOS CITY TOURS</span><span id="subtitle" style="display:none"></span></div>
+  <div class="topbar-title"><span class="logo-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span> <span id="topTitle">SANTOS CITY TOURS</span><span id="subtitle" style="display:none"></span></div>
   <a href="https://wa.me/5513997042065" target="_blank" class="topbar-wa" id="waBtn">&#128172;</a>
 </div>
 
@@ -442,13 +449,13 @@ body.light .sec-header p{color:#94a3b8}
 
   <!-- SECTION: Mapa -->
   <div class="page-section" id="sec-map">
-    <div class="sec-header"><h2><span class="sec-icon">\ud83d\uddfa\ufe0f</span> <span id="mapTitle"></span></h2></div>
+    <div class="sec-header"><h2><span class="sec-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></span> <span id="mapTitle"></span></h2></div>
     <div class="map-section"><div class="map-wrap"><div id="tourMap"></div></div></div>
   </div>
 
   <!-- SECTION: Comparador -->
   <div class="page-section" id="sec-compare">
-    <div class="sec-header"><h2><span class="sec-icon">\u2696\ufe0f</span> <span id="compareTitle"></span></h2></div>
+    <div class="sec-header"><h2><span class="sec-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg></span> <span id="compareTitle"></span></h2></div>
     <div class="compare-section" id="compare-section"></div>
   </div>
 
