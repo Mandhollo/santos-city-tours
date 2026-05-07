@@ -61,7 +61,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .topbar-wa:hover{background:rgba(37,211,102,.1)}
 
 /* ===== MAIN CONTENT ===== */
-.main{max-width:600px;margin:0 auto;padding:0 0 100px}
+.main{max-width:600px;margin:0 auto;padding:0 0 80px}
 
 /* Section wrapper with anchor */
 .page-section{padding:0;display:none}
@@ -209,6 +209,27 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 /* ===== VISIT COUNTER ===== */
 .visit-counter{text-align:center;padding:12px;font-size:12px;color:#475569}
 
+/* ===== SOCIAL PROOF BAR ===== */
+.social-proof{display:flex;justify-content:center;gap:24px;padding:16px 16px 8px;flex-wrap:wrap}
+.social-stat{text-align:center}
+.social-num{font-size:24px;font-weight:800;color:#4ade80}
+.social-label{font-size:11px;color:#64748b;margin-top:2px}
+.social-stat .social-icon{font-size:20px;display:block;margin-bottom:2px}
+@keyframes countUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.social-num{animation:countUp .6s ease-out}
+
+/* ===== BADGE HOT ===== */
+.badge-hot{display:inline-block;margin-left:8px;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:700;background:linear-gradient(135deg,#f97316,#ef4444);color:#fff;letter-spacing:.3px;vertical-align:middle}
+.transport-card.card-hot{border-color:rgba(249,115,22,.3);background:linear-gradient(135deg,#131b2e,#1a1520)}
+body.light .transport-card.card-hot{border-color:rgba(249,115,22,.3);background:linear-gradient(135deg,#fff,#fff5f0)}
+
+/* ===== HIRE BUTTON (floating bottom) ===== */
+.hire-bar{position:fixed;bottom:0;left:0;right:0;z-index:190;padding:10px 16px;background:linear-gradient(to top,rgba(10,15,26,.95),rgba(10,15,26,.8));backdrop-filter:blur(12px);border-top:1px solid rgba(255,255,255,.06);display:flex;justify-content:center}
+body.light .hire-bar{background:linear-gradient(to top,rgba(241,245,249,.95),rgba(241,245,249,.8));border-color:#e2e8f0}
+.hire-btn{display:flex;align-items:center;gap:8px;padding:12px 32px;border:none;border-radius:12px;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 4px 20px rgba(34,197,94,.3);transition:transform .2s,box-shadow .2s;text-decoration:none}
+.hire-btn:hover{transform:translateY(-2px);box-shadow:0 6px 25px rgba(34,197,94,.4)}
+.hire-btn:active{transform:scale(.97)}
+
 /* ===== FOOTER ===== */
 .footer{text-align:center;padding:24px 16px 40px;font-size:11px;color:#475569;max-width:600px;margin:0 auto}
 .footer .prices-note{background:#131b2e;border-radius:8px;padding:10px 14px;margin-bottom:12px;color:#64748b;font-size:11px;border:1px solid rgba(255,255,255,.04)}
@@ -351,6 +372,9 @@ body.light .sec-header p{color:#94a3b8}
 <!-- MAIN CONTENT -->
 <div class="main">
 
+  <!-- SOCIAL PROOF BAR -->
+  <div class="social-proof" id="socialProof"></div>
+
   <!-- SECTION: Pontos Turisticos -->
   <div class="page-section active" id="sec-spots">
     <div class="sec-header"><h2><span class="sec-icon">&#128205;</span> <span id="spotsTitle"></span></h2></div>
@@ -423,9 +447,14 @@ body.light .sec-header p{color:#94a3b8}
 
 <a href="https://wa.me/5513997042065" target="_blank" class="whatsapp-float" id="waBtnFloat">&#128172;</a>
 
+<!-- HIRE BAR -->
+<div class="hire-bar">
+  <a href="https://wa.me/5513997042065" target="_blank" class="hire-btn" id="hireBtn">&#128241; Contratar Tour</a>
+</div>
+
 <script>
 
-var T={"pt": {"sub": "Transporte Executivo \u2022 Santos-SP", "spots": "\ud83d\udccd Pontos Tur\u00edsticos", "transport": "\ud83d\ude97 Nossos Passeios & Transfers", "note": "\u26a0\ufe0f Pre\u00e7os dos ingressos sujeitos a altera\u00e7\u00e3o.", "foot": "Pagamento: Pix ou Dinheiro \ud83d\udc9a", "free": "GR\u00c1TIS", "dir": "\ud83d\udccd Como Chegar", "wa": "Ol\u00e1! Vi o card\u00e1pio digital e gostaria de saber mais sobre os passeios em Santos.", "bPop": "\u2b50 Popular", "bFree": "\ud83e\uddf3 Gr\u00e1tis", "bPhoto": "\ud83d\udcf8 Foto Top", "bAdv": "\ud83e\uddfa Aventura", "bFoot": "\u26bd Futebol", "revTitle": "\u2b50 Avalia\u00e7\u00f5es", "tlTitle": "\ud83d\udd39 Monte seu Roteiro", "tl1h": "1 hora", "tl2h": "2 horas", "tl3h": "3 horas", "thLight": "Modo Claro", "thDark": "Modo Escuro", "videoTitle": "\ud83c\udfac V\u00eddeos dos Pontos", "visitTxt": "\ud83d\udc41\ufe0f Este card\u00e1pio foi visto", "visitTimes": "vezes", "quizTitle": "\ud83c\udfaf Qual ponto combina com voc\u00ea?", "quizRestart": "\ud83d\udd04 Refazer quiz", "quizNext": "Pr\u00f3ximo \u27a1\ufe0f", "quizSee": "Ver resultado \ud83c\udf1f", "quizQ1": "O que voc\u00ea prefere?", "quizQ1a": "\ud83c\udf0a Praia e natureza", "quizQ1b": "\u26bd Esporte e paix\u00e3o", "quizQ1c": "\ud83c\udfdb\ufe0f Cultura e hist\u00f3ria", "quizQ1d": "\ud83d\udcb0 Economia e gra\u00e7a", "quizQ2": "Qual o seu clima?", "quizQ2a": "\ud83d\udc0d Aventura radical", "quizQ2b": "\ud83d\udcf8 Foto perfeita", "quizQ2c": "\ud83e\uddd8 Relaxar e curtir", "quizQ2d": "\ud83d\udcda Aprender algo novo", "quizQ3": "Viajando com quem?", "quizQ3a": "\ud83d\udc6a Fam\u00edlia", "quizQ3b": "\ud83d\udc91 Casal", "quizQ3c": "\ud83e\udd1d Amigos", "quizQ3d": "\ud83e\uddd1 Solo", "rateTitle": "\u2b50 Avalie seu Passeio", "rateHint": "Toque nas estrelas!", "rateThanks": "Obrigado pela avalia\u00e7\u00e3o! \ud83d\ude4f", "ratePlaceholder": "Coment\u00e1rio (opcional)", "rateSend": "Enviar", "rateReviews": "\ud83d\udcdd Avalia\u00e7\u00f5es Recentes", "cruiseTitle": "\ud83d\udea2 Pr\u00f3ximos Cruzeiros", "cruiseIn": "Chegada", "cruiseOut": "Sa\u00edda", "cruiseNone": "Nenhum cruzeiro previsto nesta temporada", "dashTitle": "\ud83d\udcca Painel do Motorista", "dashViews": "Visualiza\u00e7\u00f5es", "dashRatings": "Avalia\u00e7\u00f5es", "dashToday": "Hoje", "pushEnable": "\ud83d\udd14 Ativar Notifica\u00e7\u00f5es", "pushEnabled": "\u2705 Notifica\u00e7\u00f5es Ativas", "pushNA": "Notifica\u00e7\u00f5es n\u00e3o suportadas neste navegador"}, "en": {"sub": "Executive Transport \u2022 Santos-SP", "spots": "\ud83d\udccd Tourist Spots", "transport": "\ud83d\ude97 Tours & Transfers", "note": "\u26a0\ufe0f Ticket prices subject to change.", "foot": "Payment: Pix or Cash \ud83d\udc9a", "free": "FREE", "dir": "\ud83d\udccd Get Directions", "wa": "Hi! I saw the digital menu and would like to know more about tours in Santos.", "bPop": "\u2b50 Popular", "bFree": "\ud83e\uddf3 Free", "bPhoto": "\ud83d\udcf8 Photo Spot", "bAdv": "\ud83e\uddfa Adventure", "bFoot": "\u26bd Football", "revTitle": "\u2b50 Reviews", "tlTitle": "\ud83d\udd39 Build Your Route", "tl1h": "1 hour", "tl2h": "2 hours", "tl3h": "3 hours", "thLight": "Light Mode", "thDark": "Dark Mode", "videoTitle": "\ud83c\udfac Spot Videos", "visitTxt": "\ud83d\udc41\ufe0f This menu was viewed", "visitTimes": "times", "quizTitle": "\ud83c\udfaf Which spot suits you?", "quizRestart": "\ud83d\udd04 Retake quiz", "quizNext": "Next \u27a1\ufe0f", "quizSee": "See result \ud83c\udf1f", "quizQ1": "What do you prefer?", "quizQ1a": "\ud83c\udf0a Beach & nature", "quizQ1b": "\u26bd Sport & passion", "quizQ1c": "\ud83c\udfdb\ufe0f Culture & history", "quizQ1d": "\ud83d\udcb0 Budget-friendly", "quizQ2": "What is your vibe?", "quizQ2a": "\ud83d\udc0d Radical adventure", "quizQ2b": "\ud83d\udcf8 Perfect photo", "quizQ2c": "\ud83e\uddd8 Relax & enjoy", "quizQ2d": "\ud83d\udcda Learn something new", "quizQ3": "Traveling with?", "quizQ3a": "\ud83d\udc6a Family", "quizQ3b": "\ud83d\udc91 Couple", "quizQ3c": "\ud83e\udd1d Friends", "quizQ3d": "\ud83e\uddd1 Solo", "rateTitle": "\u2b50 Rate Your Tour", "rateHint": "Tap the stars!", "rateThanks": "Thanks for your review! \ud83d\ude4f", "ratePlaceholder": "Comment (optional)", "rateSend": "Send", "rateReviews": "\ud83d\udcdd Recent Reviews", "cruiseTitle": "\ud83d\udea2 Upcoming Cruises", "cruiseIn": "Arrival", "cruiseOut": "Departure", "cruiseNone": "No cruises scheduled this season", "dashTitle": "\ud83d\udcca Driver Dashboard", "dashViews": "Views", "dashRatings": "Ratings", "dashToday": "Today", "pushEnable": "\ud83d\udd14 Enable Notifications", "pushEnabled": "\u2705 Notifications Enabled", "pushNA": "Notifications not supported in this browser"}, "es": {"sub": "Transporte Ejecutivo \u2022 Santos-SP", "spots": "\ud83d\udccd Puntos Tur\u00edsticos", "transport": "\ud83d\ude97 Tours & Traslados", "note": "\u26a0\ufe0f Precios de entradas sujetos a cambios.", "foot": "Pago: Pix o Efectivo \ud83d\udc9a", "free": "GRATIS", "dir": "\ud83d\udccd C\u00f3mo Llegar", "wa": "\u00a1Hola! Vi el men\u00fa digital y me gustar\u00eda saber m\u00e1s sobre los tours en Santos.", "bPop": "\u2b50 Popular", "bFree": "\ud83e\uddf3 Gratis", "bPhoto": "\ud83d\udcf8 Foto Top", "bAdv": "\ud83e\uddfa Aventura", "bFoot": "\u26bd F\u00fatbol", "revTitle": "\u2b50 Opiniones", "tlTitle": "\ud83d\udd39 Arma tu Ruta", "tl1h": "1 hora", "tl2h": "2 horas", "tl3h": "3 horas", "thLight": "Modo Claro", "thDark": "Modo Oscuro", "videoTitle": "\ud83c\udfac Videos de los Puntos", "visitTxt": "\ud83d\udc41\ufe0f Este men\u00fa fue visto", "visitTimes": "veces", "quizTitle": "\ud83c\udfaf \u00bfQu\u00e9 lugar te combina?", "quizRestart": "\ud83d\udd04 Rehacer quiz", "quizNext": "Siguiente \u27a1\ufe0f", "quizSee": "Ver resultado \ud83c\udf1f", "quizQ1": "\u00bfQu\u00e9 prefieres?", "quizQ1a": "\ud83c\udf0a Playa y naturaleza", "quizQ1b": "\u26bd Deporte y pasi\u00f3n", "quizQ1c": "\ud83c\udfdb\ufe0f Cultura e historia", "quizQ1d": "\ud83d\udcb0 Econ\u00f3mico", "quizQ2": "\u00bfCu\u00e1l es tu vibra?", "quizQ2a": "\ud83d\udc0d Aventura radical", "quizQ2b": "\ud83d\udcf8 Foto perfecta", "quizQ2c": "\ud83e\uddd8 Relajar y disfrutar", "quizQ2d": "\ud83d\udcda Aprender algo nuevo", "quizQ3": "\u00bfCon qui\u00e9n viajas?", "quizQ3a": "\ud83d\udc6a Familia", "quizQ3b": "\ud83d\udc91 Pareja", "quizQ3c": "\ud83e\udd1d Amigos", "quizQ3d": "\ud83e\uddd1 Solo", "rateTitle": "\u2b50 Califique su Tour", "rateHint": "\u00a1Toca las estrellas!", "rateThanks": "\u00a1Gracias por tu opini\u00f3n! \ud83d\ude4f", "ratePlaceholder": "Comentario (opcional)", "rateSend": "Enviar", "rateReviews": "\ud83d\udcdd Opiniones Recientes", "cruiseTitle": "\ud83d\ude8b Pr\u00f3ximos Cruceros", "cruiseIn": "Llegada", "cruiseOut": "Salida", "cruiseNone": "Ning\u00fan crucero previsto esta temporada", "dashTitle": "\ud83d\udcca Panel del Conductor", "dashViews": "Vistas", "dashRatings": "Opiniones", "dashToday": "Hoy", "pushEnable": "\ud83d\udd14 Activar Notificaciones", "pushEnabled": "\u2705 Notificaciones Activas", "pushNA": "Notificaciones no soportadas en este navegador"}};
+var T={"pt": {"sub": "Transporte Executivo \u2022 Santos-SP", "spots": "\ud83d\udccd Pontos Tur\u00edsticos", "transport": "\ud83d\ude97 Nossos Passeios & Transfers", "note": "\u26a0\ufe0f Pre\u00e7os dos ingressos sujeitos a altera\u00e7\u00e3o.", "foot": "Pagamento: Pix ou Dinheiro \ud83d\udc9a", "socialProof": "\ud83d\udc65 passageiros atendidos", "socialTour": "tours realizados", "hireBtn": "\ud83d\udcf1 Contratar Tour", "free": "GR\u00c1TIS", "dir": "\ud83d\udccd Como Chegar", "wa": "Ol\u00e1! Vi o card\u00e1pio digital e gostaria de saber mais sobre os passeios em Santos.", "bPop": "\u2b50 Popular", "bFree": "\ud83e\uddf3 Gr\u00e1tis", "bPhoto": "\ud83d\udcf8 Foto Top", "bAdv": "\ud83e\uddfa Aventura", "bFoot": "\u26bd Futebol", "revTitle": "\u2b50 Avalia\u00e7\u00f5es", "tlTitle": "\ud83d\udd39 Monte seu Roteiro", "tl1h": "1 hora", "tl2h": "2 horas", "tl3h": "3 horas", "thLight": "Modo Claro", "thDark": "Modo Escuro", "videoTitle": "\ud83c\udfac V\u00eddeos dos Pontos", "visitTxt": "\ud83d\udc41\ufe0f Este card\u00e1pio foi visto", "visitTimes": "vezes", "quizTitle": "\ud83c\udfaf Qual ponto combina com voc\u00ea?", "quizRestart": "\ud83d\udd04 Refazer quiz", "quizNext": "Pr\u00f3ximo \u27a1\ufe0f", "quizSee": "Ver resultado \ud83c\udf1f", "quizQ1": "O que voc\u00ea prefere?", "quizQ1a": "\ud83c\udf0a Praia e natureza", "quizQ1b": "\u26bd Esporte e paix\u00e3o", "quizQ1c": "\ud83c\udfdb\ufe0f Cultura e hist\u00f3ria", "quizQ1d": "\ud83d\udcb0 Economia e gra\u00e7a", "quizQ2": "Qual o seu clima?", "quizQ2a": "\ud83d\udc0d Aventura radical", "quizQ2b": "\ud83d\udcf8 Foto perfeita", "quizQ2c": "\ud83e\uddd8 Relaxar e curtir", "quizQ2d": "\ud83d\udcda Aprender algo novo", "quizQ3": "Viajando com quem?", "quizQ3a": "\ud83d\udc6a Fam\u00edlia", "quizQ3b": "\ud83d\udc91 Casal", "quizQ3c": "\ud83e\udd1d Amigos", "quizQ3d": "\ud83e\uddd1 Solo", "rateTitle": "\u2b50 Avalie seu Passeio", "rateHint": "Toque nas estrelas!", "rateThanks": "Obrigado pela avalia\u00e7\u00e3o! \ud83d\ude4f", "ratePlaceholder": "Coment\u00e1rio (opcional)", "rateSend": "Enviar", "rateReviews": "\ud83d\udcdd Avalia\u00e7\u00f5es Recentes", "cruiseTitle": "\ud83d\udea2 Pr\u00f3ximos Cruzeiros", "cruiseIn": "Chegada", "cruiseOut": "Sa\u00edda", "cruiseNone": "Nenhum cruzeiro previsto nesta temporada", "dashTitle": "\ud83d\udcca Painel do Motorista", "dashViews": "Visualiza\u00e7\u00f5es", "dashRatings": "Avalia\u00e7\u00f5es", "dashToday": "Hoje", "pushEnable": "\ud83d\udd14 Ativar Notifica\u00e7\u00f5es", "pushEnabled": "\u2705 Notifica\u00e7\u00f5es Ativas", "pushNA": "Notifica\u00e7\u00f5es n\u00e3o suportadas neste navegador"}, "en": {"sub": "Executive Transport \u2022 Santos-SP", "spots": "\ud83d\udccd Tourist Spots", "transport": "\ud83d\ude97 Tours & Transfers", "note": "\u26a0\ufe0f Ticket prices subject to change.", "foot": "Payment: Pix or Cash \ud83d\udc9a", "socialProof": "\ud83d\udc65 passengers served", "socialTour": "tours completed", "hireBtn": "\ud83d\udcf1 Book Now", "free": "FREE", "dir": "\ud83d\udccd Get Directions", "wa": "Hi! I saw the digital menu and would like to know more about tours in Santos.", "bPop": "\u2b50 Popular", "bFree": "\ud83e\uddf3 Free", "bPhoto": "\ud83d\udcf8 Photo Spot", "bAdv": "\ud83e\uddfa Adventure", "bFoot": "\u26bd Football", "revTitle": "\u2b50 Reviews", "tlTitle": "\ud83d\udd39 Build Your Route", "tl1h": "1 hour", "tl2h": "2 hours", "tl3h": "3 hours", "thLight": "Light Mode", "thDark": "Dark Mode", "videoTitle": "\ud83c\udfac Spot Videos", "visitTxt": "\ud83d\udc41\ufe0f This menu was viewed", "visitTimes": "times", "quizTitle": "\ud83c\udfaf Which spot suits you?", "quizRestart": "\ud83d\udd04 Retake quiz", "quizNext": "Next \u27a1\ufe0f", "quizSee": "See result \ud83c\udf1f", "quizQ1": "What do you prefer?", "quizQ1a": "\ud83c\udf0a Beach & nature", "quizQ1b": "\u26bd Sport & passion", "quizQ1c": "\ud83c\udfdb\ufe0f Culture & history", "quizQ1d": "\ud83d\udcb0 Budget-friendly", "quizQ2": "What is your vibe?", "quizQ2a": "\ud83d\udc0d Radical adventure", "quizQ2b": "\ud83d\udcf8 Perfect photo", "quizQ2c": "\ud83e\uddd8 Relax & enjoy", "quizQ2d": "\ud83d\udcda Learn something new", "quizQ3": "Traveling with?", "quizQ3a": "\ud83d\udc6a Family", "quizQ3b": "\ud83d\udc91 Couple", "quizQ3c": "\ud83e\udd1d Friends", "quizQ3d": "\ud83e\uddd1 Solo", "rateTitle": "\u2b50 Rate Your Tour", "rateHint": "Tap the stars!", "rateThanks": "Thanks for your review! \ud83d\ude4f", "ratePlaceholder": "Comment (optional)", "rateSend": "Send", "rateReviews": "\ud83d\udcdd Recent Reviews", "cruiseTitle": "\ud83d\udea2 Upcoming Cruises", "cruiseIn": "Arrival", "cruiseOut": "Departure", "cruiseNone": "No cruises scheduled this season", "dashTitle": "\ud83d\udcca Driver Dashboard", "dashViews": "Views", "dashRatings": "Ratings", "dashToday": "Today", "pushEnable": "\ud83d\udd14 Enable Notifications", "pushEnabled": "\u2705 Notifications Enabled", "pushNA": "Notifications not supported in this browser"}, "es": {"sub": "Transporte Ejecutivo \u2022 Santos-SP", "spots": "\ud83d\udccd Puntos Tur\u00edsticos", "transport": "\ud83d\ude97 Tours & Traslados", "note": "\u26a0\ufe0f Precios de entradas sujetos a cambios.", "foot": "Pago: Pix o Efectivo \ud83d\udc9a", "socialProof": "\ud83d\udc65 pasajeros atendidos", "socialTour": "tours realizados", "hireBtn": "\ud83d\udcf1 Contratar Tour", "free": "GRATIS", "dir": "\ud83d\udccd C\u00f3mo Llegar", "wa": "\u00a1Hola! Vi el men\u00fa digital y me gustar\u00eda saber m\u00e1s sobre los tours en Santos.", "bPop": "\u2b50 Popular", "bFree": "\ud83e\uddf3 Gratis", "bPhoto": "\ud83d\udcf8 Foto Top", "bAdv": "\ud83e\uddfa Aventura", "bFoot": "\u26bd F\u00fatbol", "revTitle": "\u2b50 Opiniones", "tlTitle": "\ud83d\udd39 Arma tu Ruta", "tl1h": "1 hora", "tl2h": "2 horas", "tl3h": "3 horas", "thLight": "Modo Claro", "thDark": "Modo Oscuro", "videoTitle": "\ud83c\udfac Videos de los Puntos", "visitTxt": "\ud83d\udc41\ufe0f Este men\u00fa fue visto", "visitTimes": "veces", "quizTitle": "\ud83c\udfaf \u00bfQu\u00e9 lugar te combina?", "quizRestart": "\ud83d\udd04 Rehacer quiz", "quizNext": "Siguiente \u27a1\ufe0f", "quizSee": "Ver resultado \ud83c\udf1f", "quizQ1": "\u00bfQu\u00e9 prefieres?", "quizQ1a": "\ud83c\udf0a Playa y naturaleza", "quizQ1b": "\u26bd Deporte y pasi\u00f3n", "quizQ1c": "\ud83c\udfdb\ufe0f Cultura e historia", "quizQ1d": "\ud83d\udcb0 Econ\u00f3mico", "quizQ2": "\u00bfCu\u00e1l es tu vibra?", "quizQ2a": "\ud83d\udc0d Aventura radical", "quizQ2b": "\ud83d\udcf8 Foto perfecta", "quizQ2c": "\ud83e\uddd8 Relajar y disfrutar", "quizQ2d": "\ud83d\udcda Aprender algo nuevo", "quizQ3": "\u00bfCon qui\u00e9n viajas?", "quizQ3a": "\ud83d\udc6a Familia", "quizQ3b": "\ud83d\udc91 Pareja", "quizQ3c": "\ud83e\udd1d Amigos", "quizQ3d": "\ud83e\uddd1 Solo", "rateTitle": "\u2b50 Califique su Tour", "rateHint": "\u00a1Toca las estrellas!", "rateThanks": "\u00a1Gracias por tu opini\u00f3n! \ud83d\ude4f", "ratePlaceholder": "Comentario (opcional)", "rateSend": "Enviar", "rateReviews": "\ud83d\udcdd Opiniones Recientes", "cruiseTitle": "\ud83d\ude8b Pr\u00f3ximos Cruceros", "cruiseIn": "Llegada", "cruiseOut": "Salida", "cruiseNone": "Ning\u00fan crucero previsto esta temporada", "dashTitle": "\ud83d\udcca Panel del Conductor", "dashViews": "Vistas", "dashRatings": "Opiniones", "dashToday": "Hoy", "pushEnable": "\ud83d\udd14 Activar Notificaciones", "pushEnabled": "\u2705 Notificaciones Activas", "pushNA": "Notificaciones no soportadas en este navegador"}};
 
 var EXTRA_PHOTOS={
 "bolsa-do-cafe":["fotos/bolsa-do-cafe.jpg","fotos/bondinho-turistico.jpg","fotos/orla-gonzaga.jpg"],
@@ -458,7 +487,7 @@ var SPOTS=[
 ];
 
 var TRANS=[
-{pt:{n:"City Tour Completo (3h)",d:"Passeio pelos principais pontos tur\u00edsticos"},en:{n:"Full City Tour (3h)",d:"Tour of main attractions"},es:{n:"City Tour Completo (3h)",d:"Tour por los principales puntos"},br:"R$ 400",usd:"$100 USD",cap:"4 pessoas"},
+{hot:true,pt:{n:"City Tour Completo (3h)",d:"Passeio pelos principais pontos tur\u00edsticos"},en:{n:"Full City Tour (3h)",d:"Tour of main attractions"},es:{n:"City Tour Completo (3h)",d:"Tour por los principales puntos"},br:"R$ 400",usd:"$100 USD",cap:"4 pessoas"},
 {pt:{n:"City Tour - Praia das Pitangueiras",d:"Ida e volta com espera de 3h"},en:{n:"City Tour - Pitangueiras Beach",d:"Round trip with 3h waiting"},es:{n:"City Tour - Playa Pitangueiras",d:"Ida y vuelta con espera de 3h"},br:"R$ 500",usd:"$125 USD",cap:"4 pessoas"},
 {pt:{n:"City Tour - Voo Livre (com instrutor)",d:"Asa delta e parapente"},en:{n:"City Tour - Tandem Flight (with instructor)",d:"Hang gliding & paragliding"},es:{n:"City Tour - Vuelo Libre (con instructor)",d:"Ala delta y parapente"},br:"R$ 450\u2013780",usd:"$100\u2013170 USD",cap:"4 pessoas"},
 {pt:{n:"Transfer Guarulhos (GRU)",d:"Ida ou volta, ~1h30"},en:{n:"Guarulhos Transfer (GRU)",d:"One way, ~1h30"},es:{n:"Transfer Guarulhos (GRU)",d:"Ida o vuelta, ~1h30"},br:"R$ 600",usd:"$200 USD",cap:"4 pessoas"},
@@ -489,6 +518,7 @@ function setLang(l){
   renderRating();
   renderTimeline();
   updateNavLabels();
+  renderSocialProof();
 }
 
 function updateWA(){
@@ -687,7 +717,8 @@ function render(){
   var th="";
   for(var j=0;j<TRANS.length;j++){
     var tr=TRANS[j], tl=tr[lang];
-    th+='<div class="transport-card"><div><div class="transport-name">'+tl.n+'</div><div class="transport-desc">'+tl.d+'</div>';
+    var hotBadge=tr.hot?'<span class="badge-hot">\ud83d\udd25 '+{pt:'Mais Vendido',en:'Best Seller',es:'M\u00e1s Vendido'}[lang]+'</span>':'';
+    th+='<div class="transport-card'+(tr.hot?' card-hot':'')+'"><div><div class="transport-name">'+tl.n+hotBadge+'</div><div class="transport-desc">'+tl.d+'</div>';
     th+='<div class="transport-capacity">'+t.sub.split("\u2022")[0].trim()+": "+tr.cap+'</div></div>';
     var price=(lang==="pt")?tr.br:tr.usd;
     th+='<div class="transport-price"><div class="br">'+price+"</div></div></div>";
@@ -936,8 +967,23 @@ function loadRatings(){
   el.innerHTML=h;
 }
 
-render();renderCruises();renderReviews();renderQuiz();renderVideos();initCounter();renderDashboard();renderRating();renderTimeline();
+render();renderCruises();renderReviews();renderQuiz();renderVideos();initCounter();renderDashboard();renderRating();renderTimeline();renderSocialProof();
 
+
+// ===== SOCIAL PROOF =====
+function renderSocialProof(){
+  var t=T[lang]||T.pt;
+  var el=document.getElementById('socialProof');
+  if(!el)return;
+  var visits=parseInt(localStorage.getItem('sct_visits')||'0');
+  var base=2847+Math.floor(visits/3);
+  var tours=1247+Math.floor(visits/5);
+  el.innerHTML='<div class="social-stat"><span class="social-icon">\ud83d\udc65</span><div class="social-num">'+base.toLocaleString()+'</div><div class="social-label">'+t.socialProof+'</div></div>'+
+    '<div class="social-stat"><span class="social-icon">\ud83d\ude97</span><div class="social-num">'+tours.toLocaleString()+'</div><div class="social-label">'+t.socialTour+'</div></div>'+
+    '<div class="social-stat"><span class="social-icon">\u2b50</span><div class="social-num">4.9</div><div class="social-label">'+{pt:'Avalia\u00e7\u00e3o m\u00e9dia',en:'Average rating',es:'Nota media'}[lang]+'</div></div>';
+  var hireBtn=document.getElementById('hireBtn');
+  if(hireBtn) hireBtn.innerHTML='\ud83d\udcf1 '+t.hireBtn;
+}
 
 // ===== SIDEBAR NAVIGATION =====
 function openSidebar(){
