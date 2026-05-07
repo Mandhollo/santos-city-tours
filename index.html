@@ -744,16 +744,6 @@ var lang="pt";
   if(nv.indexOf("es")===0)lang="es";
   else if(nv.indexOf("en")===0)lang="en";
 })();
-// Set active lang button
-(function(){
-  var btns=document.querySelectorAll(".lang-btn");
-  for(var i=0;i<btns.length;i++) btns[i].classList.remove("active");
-  var active=document.querySelector('.lang-btn[onclick="setLang(\''+lang+'\')"]');
-  if(active) active.classList.add("active");
-})();
-// Init everything
-render();renderCruises();renderReviews();renderQuiz();renderVideos();initCounter();renderDashboard();renderRating();renderTimeline();updateNavLabels();renderSocialProof();renderCompare();renderMap();renderChecklist();renderShipTimer();renderRoulette();renderPhotoChallenge();addFishAnimation();updateWA();
-
 function setLang(l){
   lang=l;
   var btns=document.querySelectorAll(".lang-btn");
@@ -1562,7 +1552,15 @@ function updateNavLabels(){
   el=document.getElementById('labelAbout'); if(el) el.textContent=t.labelAbout||'Sobre';
   el=document.getElementById('themeLabel'); if(el) el.textContent=(theme==='light')?t.thDark:t.thLight;
 }
-updateNavLabels();
+// Set active lang button
+(function(){
+  var btns=document.querySelectorAll(".lang-btn");
+  for(var i=0;i<btns.length;i++) btns[i].classList.remove("active");
+  var active=document.querySelector('.lang-btn[onclick="setLang(\''+lang+'\')"]');
+  if(active) active.classList.add("active");
+})();
+// Init everything on page load
+render();renderCruises();renderReviews();renderQuiz();renderVideos();initCounter();renderDashboard();renderRating();renderTimeline();updateNavLabels();renderSocialProof();renderCompare();renderMap();renderChecklist();renderShipTimer();renderRoulette();renderPhotoChallenge();addFishAnimation();updateWA();
 </script>
 </body>
 </html>
