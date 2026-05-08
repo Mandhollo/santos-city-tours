@@ -1291,6 +1291,9 @@ function renderMap(){
   var t=T[lang]||T.pt;
   document.getElementById('mapTitle').textContent=t.mapTitle;
   if(typeof L==='undefined') return;
+  // Don't create map if section is hidden (Leaflet needs visible container)
+  var mapSec=document.getElementById('sec-map');
+  if(!mapSec||!mapSec.classList.contains('active')) return;
   if(!mapInstance){
     mapInstance=L.map('tourMap',{zoomControl:false}).setView([-23.955,-46.34],13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
@@ -1628,6 +1631,13 @@ function goSection(id){
   updateProgress(id);
   closeSidebar();
   window.scrollTo(0,0);
+  // Fix Leaflet map rendering when section becomes visible
+  if(id==='map'&&mapInstance){
+    setTimeout(function(){mapInstance.invalidateSize();},200);
+  }
+  if(id==='map'&&!mapInstance){
+    setTimeout(function(){renderMap();},100);
+  }
 }
 // Update sidebar nav labels
 function updateNavLabels(){
@@ -1662,7 +1672,7 @@ function updateNavLabels(){
   if(active) active.classList.add("active");
 })();
 // Init everything on page load
-renderHero();heroAutoSlide();updateProgress('spots');render();renderCruises();renderReviews();renderQuiz();renderVideos();initCounter();renderDashboard();renderRating();renderTimeline();updateNavLabels();renderSocialProof();renderCompare();renderMap();renderChecklist();renderShipTimer();renderRoulette();renderPhotoChallenge();addFishAnimation();updateWA();
+renderHero();heroAutoSlide();updateProgress('spots');render();renderCruises();renderReviews();renderQuiz();renderVideos();initCounter();renderDashboard();renderRating();renderTimeline();updateNavLabels();renderSocialProof();renderCompare();renderChecklist();renderShipTimer();renderRoulette();renderPhotoChallenge();addFishAnimation();updateWA();
 </script>
 </body>
 </html>
